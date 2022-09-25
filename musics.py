@@ -76,7 +76,7 @@ def get_lyrics(url):
         t = tag.get_text(strip=True, separator='\n')
         if t:
             letra+=t
-    return letra
+    return re.sub(r'\[[^)]*\]', "", letra).replace("(\n", "(").replace("\n)", ")")
 
 #criar um dataframe com todas as informações de todas as musicas
 def create_dataframe():
@@ -95,11 +95,13 @@ def create_dataframe():
 #cria um json com a letra de todas as músicas
 def get_all_lyrics():
     df = create_dataframe()
-    musicas = {}
+    dic = {}
+    lista = []
     for i in df:
         url = formatar_para_url(i[1])
         letra = get_lyrics(url)
-        musicas[i[1]] = letra
+        dic = dict(album = f'{i[0]}', musica = f'{i[1]}', letra = f'{letra}')
+        lista.append(dic)
     with open("musicas.json", "w") as outfile:
-        json.dump(musicas, outfile)
-get_all_lyrics()
+        json.dump(lista, outfile)
+
