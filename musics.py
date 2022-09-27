@@ -60,7 +60,7 @@ def formatar_para_url(nome_da_musica):
     #este trecho limpa pedaços como (feat. Damian Marley), deixando apenas o nome da musica
     if len(re.findall(r'\([^)]*\)', nome_da_musica)) != 0:
         nome_da_musica = re.sub(r'\([^)]*\)', "", nome_da_musica)
-        nome_da_musica = nome_da_musica[:-1]
+        nome_da_musica = nome_da_musica[:]
     
     nome_da_musica = nome_da_musica.replace("&", "and").replace(" ", "-").lower().replace("'", "")
     
@@ -87,7 +87,8 @@ def create_dataframe():
     df = pd.concat(dfs.values(), axis=1)
 
     #tirando essa delux edition para nao ter músicas repetidas
-    df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=1, inplace= True, level=0)
+    df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=1, level=0, inplace= True)
+    df.columns = df.columns.remove_unused_levels()
     
     #df.to_excel(r'dataframe.xlsx')
     return df
@@ -104,4 +105,33 @@ def get_all_lyrics():
         lista.append(dic)
     with open("musicas.json", "w") as outfile:
         json.dump(lista, outfile)
+
+def count_freq(lista):
+    freq = {}
+    for item in lista:
+        item = item.replace("(", "").replace(")", "").replace("&", "")
+        if " " in item:
+            item = item.split()
+            for palavra in item:
+                palavra = palavra.lower()
+                if palavra in freq.keys():
+                    freq[palavra] +=1
+                else:
+                    freq[palavra] = 1
+        else:
+            item = item.lower()
+            if item in freq.keys():
+                freq[item] +=1
+            else:
+                freq[item] = 1
+    return pd.Series(freq).sort_values(ascending=False)
+
+df = create_dataframe()
+
+#frequencia das palavras nos albuns
+#print(count_freq(list(df.columns.levels[0])).head(3))
+
+#frequencia das palavras nos titulos das musicas
+#print(count_freq(list(df.columns.levels[1])))
+
 
