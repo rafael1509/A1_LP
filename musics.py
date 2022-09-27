@@ -106,32 +106,24 @@ def get_all_lyrics():
     with open("musicas.json", "w") as outfile:
         json.dump(lista, outfile)
 
+#retorna um pd.series com as palavras mais comuns
 def count_freq(lista):
-    freq = {}
+    words = []
     for item in lista:
-        item = item.replace("(", "").replace(")", "").replace("&", "")
+        item = re.subn('[(,),&,!,:,?]', "", item)#re.subn devolve uma tupla, oq impede o uso do replace
+        item = item[0].replace("\n", " ").lower()
         if " " in item:
-            item = item.split()
-            for palavra in item:
-                palavra = palavra.lower()
-                if palavra in freq.keys():
-                    freq[palavra] +=1
-                else:
-                    freq[palavra] = 1
+            for palavra in item.split():
+                words.append(palavra)
         else:
-            item = item.lower()
-            if item in freq.keys():
-                freq[item] +=1
-            else:
-                freq[item] = 1
-    return pd.Series(freq).sort_values(ascending=False)
+            words.append(item)
+    return pd.value_counts(words)
 
 df = create_dataframe()
+print(list(df.columns.levels[1]))
 
 #frequencia das palavras nos albuns
 #print(count_freq(list(df.columns.levels[0])).head(3))
 
 #frequencia das palavras nos titulos das musicas
 #print(count_freq(list(df.columns.levels[1])))
-
-
