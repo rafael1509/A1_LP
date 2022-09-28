@@ -84,7 +84,8 @@ def create_dataframe():
     df = pd.concat(dfs.values())
 
     #tirando essa delux edition para nao ter músicas repetidas
-    df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=0, inplace= True)
+    df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=0, level=0, inplace= True)
+    df.index = df.index.remove_unused_levels()
     
     #df.to_excel(r'dataframe.xlsx')
     return df
@@ -116,4 +117,12 @@ def count_freq(lista):
     return pd.value_counts(words)
 
 df = create_dataframe()
-print(df)
+# print(df)
+
+print(df.index.levels[0].values)
+
+#frequencia das palavras nos albuns
+#print(count_freq(df.index.levels[0].values).head(3))
+
+#frequencia das palavras nos titulos das musicas
+print(count_freq(df.index.levels[1].values))
