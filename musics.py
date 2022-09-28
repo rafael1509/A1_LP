@@ -1,4 +1,3 @@
-from textwrap import fill
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import pandas as pd
@@ -6,6 +5,10 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
+import numpy as np
+import seaborn
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 #este é o meu token de acesso para poder utilizar a api do spotify
 spot = spotipy.Spotify(client_credentials_manager = SpotifyClientCredentials(client_id="4122b8a894694d3e8cf1d8a19cf93aec", client_secret="665e23d198b1458f8a4ce02303100b3d"))
@@ -88,7 +91,8 @@ def create_dataframe():
     #tirando essa delux edition para nao ter músicas repetidas
     df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=0, level=0, inplace= True)
     df.index = df.index.remove_unused_levels()
-    
+    #adicionando a coluna prêmios pos música
+    df["prêmios"] = np.array([0,0,0,0,0,0,0,0,0,0,2,0,0,5,0,0,0,1,0,0,2,0,1,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0])
     #df.to_excel(r'dataframe.xlsx')
     return df
 
@@ -136,6 +140,43 @@ def palavras_comuns():
 
         print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n",freq_total.sort_values(ascending=False).head(3), sep="")
         
+def grupo_um(df):
+    albuns = df.index.levels[0].values
+    for album in list(albuns):
+        i_max = df.loc[album].idxmax()
+        i_min = df.loc[album].idxmin()
+        print("Música com mais duração, popularidade e prêmios do álbum ",album,":","\n",i_max,"\n",sep="")
+        print("Música com menos duração, popularidade e prêmios do álbum ",album,":","\n",i_min,"\n",sep="")
+
+    ii_max = df.loc[albuns].idxmax()
+    print("Música com mais duração, popularidade e prêmios em toda a discografia:", "\n", ii_max, "\n", sep="")
+    ii_min = df.loc[albuns].idxmin()
+    print("Música com menos duração, popularidade e prêmios em toda a discografia:", "\n", ii_min, "\n", sep="")
+
+
+#==============================CONSTRUÇÃO DAS VIZUALIZAÇÕES===========================#
+# custom_palette = []
+# albuns = df.index.levels[0].values
+# for i in df.index.values:
+#     if i[0] == albuns[0]:
+#         custom_palette.append('k')
+#     elif i[0] == albuns[1]:
+#         custom_palette.append('y')
+#     elif i[0] == albuns[2]:
+#         custom_palette.append('g')
+#     elif i[0] == albuns[3]:
+#         custom_palette.append('r')
+
+# seaborn.set(style = 'whitegrid')
+# seaborn.barplot(x = df.index.levels[1].values, y = 'popularidade', data=df, palette=custom_palette)
+# plt.xticks(fontsize=7, rotation=80)
+# primeiro = mpatches.Patch(color='k', label=albuns[0])
+# segundo = mpatches.Patch(color='y', label=albuns[1])
+# terceiro = mpatches.Patch(color='g', label=albuns[2])
+# quarto = mpatches.Patch(color='r', label=albuns[3])
+# plt.legend(handles=[primeiro,segundo,terceiro,quarto])
+# plt.show()
+#======================================================================================#
 
 #frequencia das palavras nos albuns
 #print(count_freq(df.index.levels[0].values).head(3))
