@@ -30,22 +30,19 @@ def get_all_albuns(id_artista):
 
 #a função retorna todas as músicas do albúm com as informações requisitadas de cada uma em um data frame
 def get_album_data(album_id, album_name):
-    tuple_columns = []
-    duracao = []
-    popularidade = []
-    data = [duracao, popularidade]
+    tuple_index = []
+    data = []
     tracks = spot.album_tracks(album_id)
     for n in range(len(tracks['items'])):
         id_track = tracks['items'][n]['id']
         track = spot.track(id_track)
-        
+    
         #construindo o data frame
-        tuple_columns.append((album_name, track['name']))
-        duracao.append(int(round(track['duration_ms']/1000, 0)))
-        popularidade.append(track['popularity'])
+        tuple_index.append((album_name, track['name']))
+        data.append([int(round(track['duration_ms']/1000, 0)), track['popularity']])
 
-    colunas = pd.MultiIndex.from_tuples(tuple_columns)
-    return pd.DataFrame(data, columns =colunas, index=['duração(seg)','popularidade'])
+    index = pd.MultiIndex.from_tuples(tuple_index, names=("Álbuns", "Músicas"))
+    return pd.DataFrame(data, columns =['duração(seg)','popularidade'], index=index)
 
 #A url segue o seguinte padrão: "https://genius.com/nome-do-artista-nome-da-música-lyrics"
 def formatar_para_url(nome_da_musica):
@@ -84,11 +81,10 @@ def create_dataframe():
     dfs ={}
     for id, nome in albuns.items():
         dfs[nome]= get_album_data(id, nome)
-    df = pd.concat(dfs.values(), axis=1)
+    df = pd.concat(dfs.values())
 
     #tirando essa delux edition para nao ter músicas repetidas
-    df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=1, level=0, inplace= True)
-    df.columns = df.columns.remove_unused_levels()
+    df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=0, inplace= True)
     
     #df.to_excel(r'dataframe.xlsx')
     return df
@@ -120,10 +116,4 @@ def count_freq(lista):
     return pd.value_counts(words)
 
 df = create_dataframe()
-print(list(df.columns.levels[1]))
-
-#frequencia das palavras nos albuns
-#print(count_freq(list(df.columns.levels[0])).head(3))
-
-#frequencia das palavras nos titulos das musicas
-#print(count_freq(list(df.columns.levels[1])))
+print(df)
