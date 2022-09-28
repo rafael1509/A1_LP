@@ -1,3 +1,4 @@
+from textwrap import fill
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import pandas as pd
@@ -55,18 +56,17 @@ def formatar_para_url(nome_da_musica):
         chave = 1
     
     #este trecho limpa pedaços como (feat. Damian Marley), deixando apenas o nome da musica
-    if len(re.findall(r'\([^)]*\)', nome_da_musica)) != 0:
-        nome_da_musica = re.sub(r'\([^)]*\)', "", nome_da_musica)
-        nome_da_musica = nome_da_musica[:]
+    nome_da_musica = re.sub("\(.*?\)","",nome_da_musica)
     
     nome_da_musica = nome_da_musica.replace("&", "and").replace(" ", "-").lower().replace("'", "")
+    if nome_da_musica[-1] == '-':
+        nome_da_musica = nome_da_musica[:-1]
     
     if chave == 1:
         return f'https://genius.com/Silk-sonic-{nome_da_musica}-lyrics'
     return f'https://genius.com/Bruno-mars-{nome_da_musica}-lyrics'
 
 def get_lyrics(url):
-    page = requests.get(url)
     soup = BeautifulSoup(requests.get(url).content, 'lxml')
     letra=''
     for tag in soup.select('div[class^="Lyrics__Container"], .song_body-lyrics p'):
@@ -74,6 +74,8 @@ def get_lyrics(url):
         if t:
             letra+=t
     return re.sub(r'\[[^)]*\]', "", letra).replace("(\n", "(").replace("\n)", ")")
+
+
 
 #criar um dataframe com todas as informações de todas as musicas
 def create_dataframe():
@@ -95,7 +97,7 @@ def get_all_lyrics():
     df = create_dataframe()
     dic = {}
     lista = []
-    for i in df:
+    for i in df.index.values:
         url = formatar_para_url(i[1])
         letra = get_lyrics(url)
         dic = dict(album = f'{i[0]}', musica = f'{i[1]}', letra = f'{letra}')
@@ -108,7 +110,7 @@ def count_freq(lista):
     words = []
     for item in lista:
         item = re.subn('[(,),&,!,:,?]', "", item)#re.subn devolve uma tupla, oq impede o uso do replace
-        item = item[0].replace("\n", " ").lower()
+        item = item[0].replace("\n", " ").replace('"', "").lower()
         if " " in item:
             for palavra in item.split():
                 words.append(palavra)
@@ -116,13 +118,30 @@ def count_freq(lista):
             words.append(item)
     return pd.value_counts(words)
 
-df = create_dataframe()
-# print(df)
 
-print(df.index.levels[0].values)
+# palavras mais comuns nas letras das musicas por album
+def palavras_comuns():
+    freq_total = pd.Series(0)
+    freq_album = pd.Series(0)
+    with open('musicas.json') as file:
+        all_musics = json.load(file)
+        album_atual = all_musics[0]['album']
+        for dicionario in all_musics:
+            if dicionario['album'] != album_atual or dicionario['musica'] == "Count on Me":
+                print(f"\nPalavras mais frequentes em: {album_atual}\n",freq_album.sort_values(ascending=False).head(3), sep="")
+                album_atual = dicionario['album']
+                freq_album = pd.Series(0)
+            freq_total = freq_total.add(count_freq([dicionario['letra']]), fill_value=0)
+            freq_album = freq_album.add(count_freq([dicionario['letra']]), fill_value=0)
+
+        print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n",freq_total.sort_values(ascending=False).head(3), sep="")
+        
 
 #frequencia das palavras nos albuns
 #print(count_freq(df.index.levels[0].values).head(3))
 
 #frequencia das palavras nos titulos das musicas
-print(count_freq(df.index.levels[1].values))
+# print(count_freq(df.index.levels[1].values))
+
+#df = create_dataframe()
+#albuns = df.index.levels[0].values
