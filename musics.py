@@ -13,11 +13,6 @@ import matplotlib.patches as mpatches
 #este é o meu token de acesso para poder utilizar a api do spotify
 spot = spotipy.Spotify(client_credentials_manager = SpotifyClientCredentials(client_id="4122b8a894694d3e8cf1d8a19cf93aec", client_secret="665e23d198b1458f8a4ce02303100b3d"))
 
-'''
-esta linha linha de código talvez seja útil depois:
-
-artist_top_tracks(artist_id, country='US')'''
-
 #no spotify, cada artista tem uma id para poder reconhecê-lo no sistema
 artist_id = '0du5cEVh5yTK9QJze8zA0C'
     
@@ -80,7 +75,7 @@ def get_lyrics(url):
 
 
 
-#criar um dataframe com todas as informações de todas as musicas
+#cria um dataframe com todas as informações de todas as musicas
 def create_dataframe():
     albuns = get_all_albuns(artist_id)
     dfs ={}
@@ -91,8 +86,10 @@ def create_dataframe():
     #tirando essa delux edition para nao ter músicas repetidas
     df.drop('Unorthodox Jukebox (Deluxe Edition)', axis=0, level=0, inplace= True)
     df.index = df.index.remove_unused_levels()
-    #adicionando a coluna prêmios pos música
+
+    #adicionando a coluna prêmios pos música.Como são poucos prêmios, pegamos manualmente
     df["prêmios"] = np.array([0,0,0,0,0,0,0,0,0,0,2,0,0,5,0,0,0,1,0,0,2,0,1,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0])
+
     #df.to_excel(r'dataframe.xlsx')
     return df
 
@@ -109,7 +106,7 @@ def get_all_lyrics():
     with open("musicas.json", "w") as outfile:
         json.dump(lista, outfile)
 
-#retorna um pd.series com as palavras mais comuns
+#retorna um pd.series com as palavras mais comuns dada uma lista com palavras
 def count_freq(lista):
     words = []
     for item in lista:
@@ -122,36 +119,15 @@ def count_freq(lista):
             words.append(item)
     return pd.value_counts(words)
 
-
-# palavras mais comuns nas letras das musicas por album
-def palavras_comuns():
-    freq_total = pd.Series(0)
-    freq_album = pd.Series(0)
+#retorna as palvras mais comuns por álbum
+def palavras_comuns(album):
+    freq = pd.Series(0)
     with open('musicas.json') as file:
         all_musics = json.load(file)
-        album_atual = all_musics[0]['album']
         for dicionario in all_musics:
-            if dicionario['album'] != album_atual or dicionario['musica'] == "Count on Me":
-                print(f"\nPalavras mais frequentes em: {album_atual}\n",freq_album.sort_values(ascending=False).head(3), sep="")
-                album_atual = dicionario['album']
-                freq_album = pd.Series(0)
-            freq_total = freq_total.add(count_freq([dicionario['letra']]), fill_value=0)
-            freq_album = freq_album.add(count_freq([dicionario['letra']]), fill_value=0)
-
-        print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n",freq_total.sort_values(ascending=False).head(3), sep="")
-        
-def grupo_um(df):
-    albuns = df.index.levels[0].values
-    for album in list(albuns):
-        i_max = df.loc[album].idxmax()
-        i_min = df.loc[album].idxmin()
-        print("Música com mais duração, popularidade e prêmios do álbum ",album,":","\n",i_max,"\n",sep="")
-        print("Música com menos duração, popularidade e prêmios do álbum ",album,":","\n",i_min,"\n",sep="")
-
-    ii_max = df.loc[albuns].idxmax()
-    print("Música com mais duração, popularidade e prêmios em toda a discografia:", "\n", ii_max, "\n", sep="")
-    ii_min = df.loc[albuns].idxmin()
-    print("Música com menos duração, popularidade e prêmios em toda a discografia:", "\n", ii_min, "\n", sep="")
+            if dicionario['album'] == album:
+                freq = freq.add(count_freq([dicionario['letra']]), fill_value=0)
+    return freq.sort_values(ascending=False)
 
 
 #==============================CONSTRUÇÃO DAS VIZUALIZAÇÕES===========================#
@@ -177,12 +153,3 @@ def grupo_um(df):
 # plt.legend(handles=[primeiro,segundo,terceiro,quarto])
 # plt.show()
 #======================================================================================#
-
-#frequencia das palavras nos albuns
-#print(count_freq(df.index.levels[0].values).head(3))
-
-#frequencia das palavras nos titulos das musicas
-# print(count_freq(df.index.levels[1].values))
-
-#df = create_dataframe()
-#albuns = df.index.levels[0].values
