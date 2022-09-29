@@ -1,5 +1,2 @@
-# Vai toma no cu
+# Alegria
 
-pip install requests
-pip install bs4
-pip install spotipy
