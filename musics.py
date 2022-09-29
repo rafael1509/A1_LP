@@ -143,8 +143,11 @@ def palavras_comuns(album):
                 freq = freq.add(count_freq([dicionario['letra']]), fill_value=0)
     return freq.sort_values(ascending=False)
 
-df = create_dataframe()
-print(df)
+
+
+#manter essa linha se quiser o dataframe vindo do arquivo csv
+df = pd.read_csv('dataframe.csv', index_col=0)
+
 
 end = time.time()
 print("\n\nThe time of execution of above program is :", end-start)
