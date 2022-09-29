@@ -144,11 +144,6 @@ def palavras_comuns(album):
     return freq.sort_values(ascending=False)
 
 
-
-#manter essa linha se quiser o dataframe vindo do arquivo csv
-df = pd.read_csv('dataframe.csv', index_col=0)
-
-
 end = time.time()
 print("\n\nThe time of execution of above program is :", end-start)
 #==============================CONSTRUÇÃO DAS VIZUALIZAÇÕES===========================#
