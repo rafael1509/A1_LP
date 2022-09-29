@@ -9,6 +9,15 @@ import numpy as np
 import seaborn
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import time
+
+
+'''energy e loudness bem correlacionadas '''
+
+
+start = time.time()
+
+
 
 #este é o meu token de acesso para poder utilizar a api do spotify
 spot = spotipy.Spotify(client_credentials_manager = SpotifyClientCredentials(client_id="4122b8a894694d3e8cf1d8a19cf93aec", client_secret="665e23d198b1458f8a4ce02303100b3d"))
@@ -35,13 +44,18 @@ def get_album_data(album_id, album_name):
     for n in range(len(tracks['items'])):
         id_track = tracks['items'][n]['id']
         track = spot.track(id_track)
+        audio_features = spot.audio_features(id_track)[0]
     
         #construindo o data frame
         tuple_index.append((album_name, track['name']))
-        data.append([int(round(track['duration_ms']/1000, 0)), track['popularity']])
+        data.append([int(round(track['duration_ms']/1000, 0)), track['popularity'], audio_features['danceability'], audio_features['energy'], audio_features['key'],
+        audio_features['loudness'], audio_features['mode'], audio_features['speechiness'], audio_features['acousticness'],audio_features['instrumentalness'], 
+        audio_features['liveness'], audio_features['valence'], audio_features['tempo']])
 
     index = pd.MultiIndex.from_tuples(tuple_index, names=("Álbuns", "Músicas"))
-    return pd.DataFrame(data, columns =['duração(seg)','popularidade'], index=index)
+
+    return pd.DataFrame(data, columns =['duração(seg)','popularidade', 'danceability', 'energy', 'key', 'loudness', 
+    'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo'], index=index)
 
 #A url segue o seguinte padrão: "https://genius.com/nome-do-artista-nome-da-música-lyrics"
 def formatar_para_url(nome_da_musica):
@@ -129,7 +143,11 @@ def palavras_comuns(album):
                 freq = freq.add(count_freq([dicionario['letra']]), fill_value=0)
     return freq.sort_values(ascending=False)
 
+df = create_dataframe()
+print(df)
 
+end = time.time()
+print("\n\nThe time of execution of above program is :", end-start)
 #==============================CONSTRUÇÃO DAS VIZUALIZAÇÕES===========================#
 # custom_palette = []
 # albuns = df.index.levels[0].values
