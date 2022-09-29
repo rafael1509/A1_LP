@@ -1,9 +1,14 @@
 import musics
 import pandas as pd
 import json
+import re
 
 global df, albuns
-df= musics.create_dataframe()
+
+#diminui tempo de execução ao usar df vindo do cdv
+df = pd.read_csv('dataframe.csv', index_col=0).reset_index()
+df = df.set_index(['Álbuns', 'Músicas'])
+
 albuns = df.index.levels[0].values
 
 def grupo_um():
@@ -26,7 +31,6 @@ def palavras_comuns_musicas():
         print(f"\nPalavras mais frequentes em: {album}\n", musics.palavras_comuns(album).head(3), sep="")
         freq_total.add(musics.palavras_comuns(album), fill_value=0)
     print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n", freq_total.head(3),sep="")
-palavras_comuns_musicas()
 
 # frequencia das palavras nos títulos dos albuns
 # print(musics.count_freq(df.index.levels[0].values).head(3))
