@@ -6,9 +6,6 @@ from bs4 import BeautifulSoup
 import json
 import re
 import numpy as np
-import seaborn
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import time
 
 
@@ -146,26 +143,3 @@ def palavras_comuns(album):
 
 end = time.time()
 print("\n\nThe time of execution of above program is :", end-start)
-#==============================CONSTRUÇÃO DAS VIZUALIZAÇÕES===========================#
-# custom_palette = []
-# albuns = df.index.levels[0].values
-# for i in df.index.values:
-#     if i[0] == albuns[0]:
-#         custom_palette.append('k')
-#     elif i[0] == albuns[1]:
-#         custom_palette.append('y')
-#     elif i[0] == albuns[2]:
-#         custom_palette.append('g')
-#     elif i[0] == albuns[3]:
-#         custom_palette.append('r')
-
-# seaborn.set(style = 'whitegrid')
-# seaborn.barplot(x = df.index.levels[1].values, y = 'popularidade', data=df, palette=custom_palette)
-# plt.xticks(fontsize=7, rotation=80)
-# primeiro = mpatches.Patch(color='k', label=albuns[0])
-# segundo = mpatches.Patch(color='y', label=albuns[1])
-# terceiro = mpatches.Patch(color='g', label=albuns[2])
-# quarto = mpatches.Patch(color='r', label=albuns[3])
-# plt.legend(handles=[primeiro,segundo,terceiro,quarto])
-# plt.show()
-#======================================================================================#
