@@ -7,6 +7,7 @@ import json
 import re
 import numpy as np
 import time
+import openpyxl
 
 
 '''energy e loudness bem correlacionadas '''
@@ -82,8 +83,8 @@ def get_lyrics(url):
         t = tag.get_text(strip=True, separator='\n')
         if t:
             letra+=t
-    return re.sub(r'\[[^)]*\]', "", letra).replace("(\n", "(").replace("\n)", ")")
-
+    letra = letra.replace("\n", " ")
+    return re.sub("\[.*?\]", "", letra)
 
 
 #cria um dataframe com todas as informações de todas as musicas
