@@ -5,6 +5,8 @@ import re
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import nltk
+from nltk.corpus import stopwords
 
 global df, albuns
 
@@ -37,8 +39,6 @@ def grupo_um():
     ii_min = df.loc[albuns].idxmin()
     print("Música com menos duração e popularidade em toda a discografia:", "\n", ii_min[[0,1]], "\n", sep="")
     #pegando as premiações por álbum e o álbum mais premiado
-    print("Prêmios por álbum: \n", df3, sep="")
-    print("\n")
     v = df3["prêmios"].idxmax()
     print("Álbum com mais premiações:", v)
 
@@ -56,6 +56,48 @@ def palavras_comuns_musicas():
 
 # frequencia das palavras nos titulos das musicas
 # print(musics.count_freq(df.index.levels[1].values))
+
+
+# o titulo do album é tema recorrente nas letras? A função retorna o número total de vezes que
+# palavras-chave nos titulos dos albuns estão presentes nas suas músicas
+def titulo_albuns_nas_letras():
+    ocorrencias = {}
+    for titulo in albuns:
+        if titulo not in ocorrencias:
+            ocorrencias[titulo]= 0
+        titulo_list = re.sub("\(.*?\)","", titulo).replace("&", "").lower().split()
+        stops = list(stopwords.words('english'))
+        filtered = [palavra for palavra in titulo_list if not palavra.lower() in stops]
+        freq = musics.palavras_comuns(titulo)
+        for palavra in filtered:
+            try:
+                ocorrencias[titulo] += freq[palavra]
+            except KeyError:
+                continue
+                #esse é o caso de uma palavra chave do álbum não ter nenhuma ocorrência na letra da música
+    return ocorrencias
+
+
+# o titulo de uma é tema recorrente nas letras? A função retorna o número total de vezes que
+# palavras-chave nos titulos dos albuns estão presentes nas suas músicas
+def titulo_musica_na_letra():
+    ocorrencias = {}
+    with open("musicas.json") as file:
+        all_musics = json.load(file)
+        for dicionario in all_musics:
+            if dicionario['musica'] not in ocorrencias:
+                ocorrencias[dicionario['musica']] = 0
+            titulo_list = re.sub("\(.*?\)","", dicionario['musica']).replace("&", "").lower().split()
+            stops = list(stopwords.words('english'))
+            filtered = [palavra for palavra in titulo_list if not palavra.lower() in stops]
+            freq = musics.count_freq([dicionario['letra']])
+            for palavra in filtered:
+                try:
+                    ocorrencias[dicionario['musica']] += freq[palavra]
+                except KeyError:
+                    continue
+                    #esse é o caso de uma palavra chave da música não ter nenhuma ocorrência na letra da música
+        return ocorrencias
 
 
 def plot():
