@@ -1,22 +1,25 @@
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 import musics
 import pandas as pd
+import numpy as np
 import json
 import re
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import nltk
 from nltk.corpus import stopwords
 
 global df, albuns
+# df = musics.create_dataframe()
 
-#diminui tempo de execução ao usar df vindo do cdv
-# df = pd.read_csv('dataframe.csv', index_col=0).reset_index()
-# df = df.set_index(['Álbuns', 'Músicas'])
+#diminui tempo de execução ao usar df vindo do csv
+df = pd.read_csv('dataframe.csv', index_col=0, encoding='utf-8-sig', sep='\s*,\s*', engine='python').reset_index()
+df = df.set_index(['Álbuns', 'Músicas'])
 
-df = musics.create_dataframe()
 
 albuns = df.index.levels[0].values
+
 
 #criando dois novos dataframes para poder pegar a soma das premiações de cada música em cada álbum
 df2 = df.iloc[:, 13]
@@ -42,20 +45,57 @@ def grupo_um():
     v = df3["prêmios"].idxmax()
     print("Álbum com mais premiações:", v)
 
+
 #palavras mais comuns nas letras das musicas por album e em toda discografia
 def palavras_comuns_musicas():
     freq_total = pd.Series(0)
     for album in albuns:
-        print(f"\nPalavras mais frequentes em: {album}\n", musics.palavras_comuns(album).head(3), sep="")
-        freq_total.add(musics.palavras_comuns(album), fill_value=0)
-    print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n", freq_total.head(3),sep="")
+        serie = musics.palavras_comuns(album)
+        print(f"\nPalavras mais frequentes em: {album}\n", serie.head(3), sep="")
+
+        #nuvem de palavras por álbum
+        wordcloud = WordCloud(background_color="white", colormap='Dark2')
+        wordcloud.generate_from_frequencies(frequencies=serie)
+        plt.figure()
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis("off")
+        plt.title(f"Palavras mais frequentes em: {album}")
+        plt.show()
+
+        freq_total = freq_total.add(serie, fill_value=0)
+
+    print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n", freq_total.sort_values(ascending=False).head(3),sep="")
+    wordcloud = WordCloud(background_color="white", colormap='PuRd_r')
+    wordcloud.generate_from_frequencies(frequencies=freq_total)
+    plt.figure()
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.title('Palavras mais comuns nas letras das músicas em toda a discografia')
+    plt.show()
 
 
 # frequencia das palavras nos títulos dos albuns
-# print(musics.count_freq(df.index.levels[0].values).head(3))
+def frequencia_dos_titulos_dos_albuns():
+    print(musics.count_freq(df.index.levels[0].values).head(3))
+    wordcloud = WordCloud(background_color="white", colormap='Dark2')
+    wordcloud.generate_from_frequencies(frequencies=musics.count_freq(df.index.levels[1].values))
+    plt.figure()
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.title('Palavras mais comuns nos títulos dos álbuns')
+    plt.show()
+
 
 # frequencia das palavras nos titulos das musicas
-# print(musics.count_freq(df.index.levels[1].values))
+def frequencia_dos_titulos_das_musicas():
+    print(musics.count_freq(df.index.levels[1].values))
+    wordcloud = WordCloud(background_color="white", colormap='Dark2')
+    wordcloud.generate_from_frequencies(frequencies=musics.count_freq(df.index.levels[1].values))
+    plt.figure()
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.title('Palavras mais comuns nos títulos das músicas')
+    plt.show()
 
 
 # o titulo do album é tema recorrente nas letras? A função retorna o número total de vezes que
@@ -78,7 +118,7 @@ def titulo_albuns_nas_letras():
     return ocorrencias
 
 
-# o titulo de uma é tema recorrente nas letras? A função retorna o número total de vezes que
+# o titulo de uma música é tema recorrente nas letras? A função retorna o número total de vezes que
 # palavras-chave nos titulos dos albuns estão presentes nas suas músicas
 def titulo_musica_na_letra():
     ocorrencias = {}
@@ -100,6 +140,7 @@ def titulo_musica_na_letra():
         return ocorrencias
 
 
+#plotar gráficos referentes ao grupo 1
 def plot():
     #criando uma paleta de cor para usar como diferenciação das músicas por seus respectivos álbuns
     custom_palette = []
@@ -142,3 +183,32 @@ def plot():
     plt.xlabel('Álbuns', fontsize=10)
     plt.ylabel('Prêmios', fontsize=10)
     plt.show()
+
+#essa função plota graficos do tipo: mostre o maior tal e menor tal...
+def plot_mais_e_menos():
+    lista = ['duração(seg)', 'popularidade']#se quiser mais alguma informação, adicionar aqui
+    for coluna in lista:
+        # Criando um dicionario em que a chave é o nome do álbum e o valor é uma lista com as musicas dele.
+        # Isso irá ajudar para plotar um gráfico por álbum
+        tuples = df.index.values
+        dict_albuns = {}
+        for (key, value) in tuples:
+            dict_albuns.setdefault(key, []).append(value)
+
+        #plotando os gráficos para cada álbum
+        for album, musicas in dict_albuns.items():
+            custom_palette = []
+            max_album = df.loc[album].idxmax()[coluna]
+            for musica in musicas:
+
+                if musica == max_album:
+                    custom_palette.append('r')
+                else:
+                    custom_palette.append('k')
+            sns.set(style = 'whitegrid')
+            sns.barplot(x = np.array(musicas), y = df.loc[album, coluna], data=df, palette=custom_palette)
+            plt.xticks(fontsize=7, rotation=80)
+            plt.title(f'{coluna} em: {album}', fontsize=15)
+            plt.ylabel(f'{coluna}', fontsize=10)
+            plt.show()
+print(plot_mais_e_menos())
