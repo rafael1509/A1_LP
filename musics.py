@@ -6,8 +6,10 @@ from bs4 import BeautifulSoup
 import json
 import re
 import numpy as np
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
 import time
-import openpyxl
 
 
 '''energy e loudness bem correlacionadas '''
@@ -84,7 +86,9 @@ def get_lyrics(url):
         if t:
             letra+=t
     letra = letra.replace("\n", " ")
-    return re.sub("\[.*?\]", "", letra)
+    letra = re.sub("\[.*?\]", "", letra)
+    
+    return letra
 
 
 #cria um dataframe com todas as informações de todas as musicas
@@ -129,7 +133,15 @@ def count_freq(lista):
                 words.append(palavra)
         else:
             words.append(item)
-    return pd.value_counts(words)
+
+    freq = pd.value_counts(words)
+
+    #tirando stopwords
+    stops = list(stopwords.words('english'))
+    for palavra, repeticoes in freq.items():
+        if palavra in stops:
+            freq = freq.drop(palavra)
+    return freq
 
 #retorna as palvras mais comuns por álbum
 def palavras_comuns(album):
