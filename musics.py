@@ -12,6 +12,7 @@ import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 import time
+from scipy import stats
 
 
 '''energy e loudness bem correlacionadas '''
@@ -194,12 +195,6 @@ def plot_premiados(df):
     dict_albuns = {}
     albuns = []
     premios = []
-    res = {}
-    for key in albuns:
-        for value in premios:
-            res[key] = value
-            premios.remove(value)
-            break  
     for (key, value) in tuples:
         dict_albuns.setdefault(key, []).append(df.loc[key].iloc[:, 13].sum())
     for album in dict_albuns: 
@@ -218,8 +213,44 @@ def plot_premiados(df):
             res[key] = value
             premios.remove(value)
             break  
-    print("O álbum com mais prêmios é: ", max(res, key=res.get))
+    print("O álbum com mais prêmios é: ",max(res, key=res.get), "\n")
 
+def plot_relacao_um(df):
+    sns.lmplot(x="popularidade", y="duração(seg)", data=df)
+    r = stats.pearsonr(df['popularidade'], df['duração(seg)'])[0]
+    p = stats.pearsonr(df['popularidade'], df['duração(seg)'])[1]
+    plt.legend(['R={:f}, p-value={:f}'.format(r,p)])
+    plt.show()
+
+def plot(df):
+    sns.lmplot(x="energy", y="loudness", data=df)
+    r = stats.pearsonr(df['energy'], df['loudness'])[0]
+    p = stats.pearsonr(df['energy'], df['loudness'])[1]
+    plt.legend(['R={:f}, p-value={:f}'.format(r,p)])
+    plt.show()
+
+    counts = df['key'].value_counts().to_dict()
+    k, v = [], []
+    for key, value in counts.items():
+        k.append(key)
+        v.append(value)
+    custom_palette = []
+    max_value = max(counts, key=counts.get)
+    min_value = min(counts, key=counts.get)
+    for i in sorted(k, key=int):
+        if i == max_value:
+            custom_palette.append("b")
+        elif i == min_value:
+            custom_palette.append("g")
+        else:
+            custom_palette.append("k")
+    sns.set(style = 'whitegrid')
+    sns.barplot(x = k, y = v, data=df, palette=custom_palette)
+    plt.xticks(fontsize=7)
+    plt.title("Frequência dos tons", fontsize=15)
+    plt.ylabel("Frequência", fontsize=10)
+    plt.xlabel("Tons", fontsize=10)
+    plt.show()
 
 
 end = time.time()
