@@ -5,6 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
+import seaborn as sns
+import matplotlib.pyplot as plt
 import numpy as np
 import nltk
 nltk.download('stopwords')
@@ -152,6 +154,72 @@ def palavras_comuns(album):
             if dicionario['album'] == album:
                 freq = freq.add(count_freq([dicionario['letra']]), fill_value=0)
     return freq.sort_values(ascending=False)
+
+
+#essa função plota graficos do tipo: mostre o maior tal e menor tal...
+def plot_mais_e_menos(df):
+    lista = ['duração(seg)', 'popularidade']#se quiser mais alguma informação, adicionar aqui
+    for coluna in lista:
+        # Criando um dicionario em que a chave é o nome do álbum e o valor é uma lista com as musicas dele.
+        # Isso irá ajudar para plotar um gráfico por álbum
+        tuples = df.index.values
+        dict_albuns = {}
+        for (key, value) in tuples:
+            dict_albuns.setdefault(key, []).append(value)
+
+        #plotando os gráficos para cada álbum
+        for album, musicas in dict_albuns.items():
+            custom_palette = []
+            max_album = df.loc[album].idxmax()[coluna]
+            min_album = df.loc[album].idxmin()[coluna]
+            print(f'O máximo em {coluna} no álbum {album} é {max_album}')
+            print(f'O mínimo em {coluna} no álbum {album} é {min_album}\n')
+            for musica in musicas:
+                if musica == min_album:
+                    custom_palette.append('y')
+                elif musica == max_album:
+                    custom_palette.append('r')
+                else:
+                    custom_palette.append('k')
+            sns.set(style = 'whitegrid')
+            sns.barplot(x = np.array(musicas), y = df.loc[album, coluna], data=df, palette=custom_palette)
+            plt.xticks(fontsize=7, rotation=80)
+            plt.title(f'{coluna} em: {album}', fontsize=15)
+            plt.ylabel(f'{coluna}', fontsize=10)
+            plt.show()
+
+#plotando o gráfico dos albuns mais premiados
+def plot_premiados(df):
+    tuples = df.index.values
+    dict_albuns = {}
+    albuns = []
+    premios = []
+    res = {}
+    for key in albuns:
+        for value in premios:
+            res[key] = value
+            premios.remove(value)
+            break  
+    for (key, value) in tuples:
+        dict_albuns.setdefault(key, []).append(df.loc[key].iloc[:, 13].sum())
+    for album in dict_albuns: 
+        albuns.append(album)
+    for p in dict_albuns.values():
+        premios.append(p[0])
+    sns.set(style = 'whitegrid')
+    sns.barplot(x = albuns, y = premios, data=df)
+    plt.xticks(fontsize=7)
+    plt.title("Prêmios por álbuns", fontsize=15)
+    plt.ylabel("Prêmios", fontsize=10)
+    plt.show()
+    res = {}
+    for key in albuns:
+        for value in premios:
+            res[key] = value
+            premios.remove(value)
+            break  
+    print("O álbum com mais prêmios é: ", max(res, key=res.get))
+
 
 
 end = time.time()
