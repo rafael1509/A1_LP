@@ -119,4 +119,8 @@ def titulo_musica_na_letra():
 def grupo_um():
     musics.plot_mais_e_menos(df)
     musics.plot_premiados(df)
+    musics.plot_relacao_um(df)
 grupo_um()
+def grupo_tres():
+    musics.plot(df)
+grupo_tres()
