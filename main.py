@@ -117,10 +117,12 @@ def titulo_musica_na_letra():
 
 
 def grupo_um():
-    musics.plot_mais_e_menos(df)
+    lista = ['duração(seg)', 'popularidade']
+    musics.plot_mais_e_menos(df,lista)
     musics.plot_premiados(df)
     musics.plot_relacao_um(df)
 grupo_um()
 def grupo_tres():
-    musics.plot(df)
+    lista = ['danceability']
+    musics.grupo_tres(df,lista)
 grupo_tres()
