@@ -55,9 +55,9 @@ def get_album_data(album_id, album_name):
         audio_features['loudness'], audio_features['mode'], audio_features['speechiness'], audio_features['acousticness'],audio_features['instrumentalness'], 
         audio_features['liveness'], audio_features['valence'], audio_features['tempo']])
 
-    index = pd.MultiIndex.from_tuples(tuple_index, names=("Álbuns", "Músicas"))
+    index = pd.MultiIndex.from_tuples(tuple_index, names=("Albuns", "Musics"))
 
-    return pd.DataFrame(data, columns =['duração(seg)','popularidade', 'danceability', 'energy', 'key', 'loudness', 
+    return pd.DataFrame(data, columns =['duration(sec)','popularity', 'danceability', 'energy', 'key', 'loudness', 
     'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo'], index=index)
 
 #A url segue o seguinte padrão: "https://genius.com/nome-do-artista-nome-da-música-lyrics"
