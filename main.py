@@ -20,31 +20,6 @@ df = df.set_index(['Álbuns', 'Músicas'])
 albuns = df.index.levels[0].values
 
 
-#criando dois novos dataframes para poder pegar a soma das premiações de cada música em cada álbum
-#df2 = df.iloc[:, 13]
-premios = []
-for album in albuns:
-    j = df.loc[album].iloc[:, 13].sum()
-    premios.append([j])
-df3 = pd.DataFrame(premios, index=list(albuns), columns=["prêmios"])
-
-def grupo_um():
-    #pegando as músicas mais e menos tocadas e com mais e menos duração por álbum
-    for album in list(albuns):
-        i_max = df.loc[album].idxmax()
-        i_min = df.loc[album].idxmin()
-        print("Música com mais duração e popularidade do álbum ",album,":","\n",i_max[[0,1]],"\n",sep="")
-        print("Música com menos duração e popularidade do álbum ",album,":","\n",i_min[[0,1]],"\n",sep="")
-    #pegando as músicas mais e menos tocadas e com mais e menos duração em toda a discografia
-    ii_max = df.loc[albuns].idxmax()
-    print("Música com mais duração e popularidade em toda a discografia:", "\n", ii_max[[0,1]], "\n", sep="")
-    ii_min = df.loc[albuns].idxmin()
-    print("Música com menos duração e popularidade em toda a discografia:", "\n", ii_min[[0,1]], "\n", sep="")
-    #pegando as premiações por álbum e o álbum mais premiado
-    v = df3["prêmios"].idxmax()
-    print("Álbum com mais premiações:", v)
-
-#grupo_um()
 
 
 #palavras mais comuns nas letras das musicas por album e em toda discografia
@@ -159,6 +134,7 @@ def plot_mais_e_menos():
             min_album = df.loc[album].idxmin()[coluna]
             for musica in musicas:
                 if musica == max_album:
+                    print("max", coluna, album,":",)
                     custom_palette.append('r')
                 elif musica == min_album:
                     custom_palette.append('b')
@@ -175,6 +151,12 @@ def plot_mais_e_menos():
     dict_albuns = {}
     albuns = []
     premios = []
+    res = {}
+    for key in albuns:
+        for value in premios:
+            res[key] = value
+            premios.remove(value)
+            break  
     for (key, value) in tuples:
         dict_albuns.setdefault(key, []).append(df.loc[key].iloc[:, 13].sum())
     for album in dict_albuns: 
@@ -187,3 +169,10 @@ def plot_mais_e_menos():
     plt.title("Prêmios por álbuns", fontsize=15)
     plt.ylabel("Prêmios", fontsize=10)
     plt.show()
+    res = {}
+    for key in albuns:
+        for value in premios:
+            res[key] = value
+            premios.remove(value)
+            break  
+    print(max(res, key=res.get))
