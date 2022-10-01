@@ -118,7 +118,7 @@ def titulo_musica_na_letra():
 
 #essa função plota graficos do tipo: mostre o maior tal e menor tal...
 def plot_mais_e_menos():
-    lista = ['duração(seg)', 'popularidade']#se quiser mais alguma informação, adicionar aqui
+    lista = ['duração(seg)', 'popularidade', 'premios']#se quiser mais alguma informação, adicionar aqui
     for coluna in lista:
         # Criando um dicionario em que a chave é o nome do álbum e o valor é uma lista com as musicas dele.
         # Isso irá ajudar para plotar um gráfico por álbum
@@ -132,12 +132,13 @@ def plot_mais_e_menos():
             custom_palette = []
             max_album = df.loc[album].idxmax()[coluna]
             min_album = df.loc[album].idxmin()[coluna]
+            print(f'O máximo em {coluna} no álbum {album} é {max_album}')
+            print(f'O mínimo em {coluna} no álbum {album} é {min_album}')
             for musica in musicas:
-                if musica == max_album:
-                    print("max", coluna, album,":",)
+                if musica == min_album:
+                    custom_palette.append('y')
+                elif musica == max_album:
                     custom_palette.append('r')
-                elif musica == min_album:
-                    custom_palette.append('b')
                 else:
                     custom_palette.append('k')
             sns.set(style = 'whitegrid')
