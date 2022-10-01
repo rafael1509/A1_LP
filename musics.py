@@ -158,8 +158,7 @@ def palavras_comuns(album):
 
 
 #essa função plota graficos do tipo: mostre o maior tal e menor tal...
-def plot_mais_e_menos(df):
-    lista = ['duração(seg)', 'popularidade']#se quiser mais alguma informação, adicionar aqui
+def plot_mais_e_menos(df, lista):
     for coluna in lista:
         # Criando um dicionario em que a chave é o nome do álbum e o valor é uma lista com as musicas dele.
         # Isso irá ajudar para plotar um gráfico por álbum
@@ -222,13 +221,15 @@ def plot_relacao_um(df):
     plt.legend(['R={:f}, p-value={:f}'.format(r,p)])
     plt.show()
 
-def plot(df):
+def grupo_tres(df, lista):
+    #há relação entre as colunas energy e loudness?
     sns.lmplot(x="energy", y="loudness", data=df)
     r = stats.pearsonr(df['energy'], df['loudness'])[0]
     p = stats.pearsonr(df['energy'], df['loudness'])[1]
     plt.legend(['R={:f}, p-value={:f}'.format(r,p)])
     plt.show()
 
+    #quais são os tons (baseados em Pitch class) mais frequentes nas músicas?
     counts = df['key'].value_counts().to_dict()
     k, v = [], []
     for key, value in counts.items():
@@ -252,6 +253,32 @@ def plot(df):
     plt.xlabel("Tons", fontsize=10)
     plt.show()
 
+    #quais são as músicas consideradas com maior 'danceability' por álbum?
+    for coluna in lista:
+        tuples = df.index.values
+        dict_albuns = {}
+        for (key, value) in tuples:
+            dict_albuns.setdefault(key, []).append(value)
+
+        for album, musicas in dict_albuns.items():
+            custom_palette = []
+            max_album = df.loc[album].idxmax()[coluna]
+            min_album = df.loc[album].idxmin()[coluna]
+            print(f'O máximo em {coluna} no álbum {album} é {max_album}')
+            print(f'O mínimo em {coluna} no álbum {album} é {min_album}\n')
+            for musica in musicas:
+                if musica == min_album:
+                    custom_palette.append('y')
+                elif musica == max_album:
+                    custom_palette.append('r')
+                else:
+                    custom_palette.append('k')
+            sns.set(style = 'whitegrid')
+            sns.barplot(x = np.array(musicas), y = df.loc[album, coluna], data=df, palette=custom_palette)
+            plt.xticks(fontsize=7, rotation=80)
+            plt.title(f'{coluna} em: {album}', fontsize=15)
+            plt.ylabel(f'{coluna}', fontsize=10)
+            plt.show()
 
 end = time.time()
 print("\n\nThe time of execution of above program is :", end-start)
