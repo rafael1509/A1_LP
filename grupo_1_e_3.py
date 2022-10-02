@@ -21,9 +21,7 @@ def plot_mais_e_menos_por_album(df, coluna):
         print(f'O máximo em {coluna} no álbum {album} é {max_album}')
         print(f'O mínimo em {coluna} no álbum {album} é {min_album}\n')
         for musica in musicas:
-            if musica == min_album:
-                custom_palette.append('#25316D')
-            elif musica == max_album:
+            if musica == min_album or musica == max_album:
                 custom_palette.append('#25316D')
             else:
                 custom_palette.append('#97D2EC')
@@ -45,9 +43,7 @@ def plot_mais_e_menos_geral(df, coluna):
     print(f'O mínimo em {coluna} em toda discografia é {minimo}\n')
     for i in df.index.values:
         musicas.append(i[1])
-        if i[1] == maximo:
-            custom_palette.append('#3CCF4E')
-        elif i[1] == minimo:
+        if i[1] == maximo or i[1] == minimo:
             custom_palette.append('#3CCF4E')
         else:
             custom_palette.append('#ADDDD0')
@@ -105,13 +101,13 @@ def plot_tom_mais_frequente(df):
     custom_palette = []
     max_value = max(counts, key=counts.get)
     min_value = min(counts, key=counts.get)
+    print("O tom mais frequente é: ", max_value)
+    print("O tom menos frequente é: ", min_value)
     for i in sorted(k, key=int):
-        if i == max_value:
-            custom_palette.append("b")
-        elif i == min_value:
-            custom_palette.append("g")
+        if i == max_value or i == min_value:
+            custom_palette.append("#820000")
         else:
-            custom_palette.append("k")
+            custom_palette.append("#FF9494")
     sns.set(style = 'whitegrid')
     sns.barplot(x = k, y = v, data=df, palette=custom_palette)
     plt.xticks(fontsize=7)
