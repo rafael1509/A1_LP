@@ -6,6 +6,15 @@ from scipy import stats
 
 # Essa função plota graficos do tipo: mostre o maior tal e menor tal POR ÁLBUM
 def plot_mais_e_menos_por_album(df, coluna):
+    """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
+
+       Essa função plota graficos e responde as perguntas do tipo: mostre o maior tal e menor tal POR ÁLBUM.
+    
+    :param df: dataframe com todas as informações das músicas.
+    :param coluna: nome(s) das coluna(s) requisitadas para obter informações.
+    :type df: object
+    :type coluna: (str or tuple(str))
+    """
     # Criando um dicionario em que a chave é o nome do álbum e o valor é uma lista com as musicas dele.
     # Isso irá ajudar para plotar um gráfico por álbum
     tuples = df.index.values
@@ -35,6 +44,15 @@ def plot_mais_e_menos_por_album(df, coluna):
 
 # essa função plota graficos do tipo: mostre o maior tal e menor tal EM TODA DISCOGRAFIA
 def plot_mais_e_menos_geral(df, coluna):
+    """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
+    
+       Essa função plota graficos e responde as perguntas do tipo: mostre o maior tal e menor tal EM TODA DISCOGRAFIA.
+    
+    :param df: dataframe com todas as informações das músicas.
+    :param coluna: nome(s) das coluna(s) requisitadas para obter informações.
+    :type df: object
+    :type coluna: (str or tuple(str))
+    """
     custom_palette = []
     musicas = []
     maximo = df.idxmax()[coluna][1]
@@ -57,6 +75,14 @@ def plot_mais_e_menos_geral(df, coluna):
 
 #plotando o gráfico dos albuns mais premiados
 def plot_premiados(df):
+    """Recebe o dataframe das músicas.
+    
+       Essa função plota o gráfico com as premiações de cada álbum e responde o álbum com mais prêmios.
+       (Foram considerados os somatórios dos prêmios de cada música de cada álbum como premiação total do álbum.)
+    
+    :param df: dataframe com todas as informações das músicas.
+    :type df: object
+    """
     tuples = df.index.values
     dict_albuns = {}
     albuns = []
@@ -85,6 +111,15 @@ def plot_premiados(df):
 
 # Calcula a correlação entre duas colunas do dataframe. Essas colunas são informadas em uma tupla
 def plot_correlacao(df, tupla):
+    """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
+    
+       Essa função plota graficos de correlação entre duas informações escolhidas.
+    
+    :param df: dataframe com todas as informações das músicas.
+    :param tupla: nomes das colunas requisitadas para obter informações.
+    :type df: object
+    :type coluna: tuple(str)
+    """
     sns.lmplot(x=tupla[0], y=tupla[1], data=df)
     r = stats.pearsonr(df[tupla[0]], df[tupla[1]])[0]
     p = stats.pearsonr(df[tupla[0]], df[tupla[1]])[1]
@@ -93,6 +128,13 @@ def plot_correlacao(df, tupla):
 
 #quais são os tons (baseados em Pitch class) mais frequentes nas músicas?
 def plot_tom_mais_frequente(df):
+    """Recebe o dataframe das músicas.
+    
+       Essa função plota o gráfico e responde qual o tom mais frequente nas músicas.
+    
+    :param df: dataframe com todas as informações das músicas.
+    :type df: object
+    """
     counts = df['key'].value_counts().to_dict()
     k, v = [], []
     for key, value in counts.items():
