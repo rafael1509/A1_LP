@@ -18,23 +18,26 @@ def count_freq(lista):
     :rtype: object
     """
     
-    words = []
-    for item in lista:
-        item = re.subn('[(,),&,!,:,?]', "", item)#re.subn devolve uma tupla, oq impede o uso do replace
-        item = item[0].replace("\n", " ").replace('"', "").lower()
-        if " " in item:
-            for palavra in item.split():
-                words.append(palavra)
-        else:
-            words.append(item)
-    freq = pd.value_counts(words)
+    try:
+        words = []
+        for item in lista:
+            item = re.subn('[(,),&,!,:,?]', "", item)#re.subn devolve uma tupla, oq impede o uso do replace
+            item = item[0].replace("\n", " ").replace('"', "").lower()
+            if " " in item:
+                for palavra in item.split():
+                    words.append(palavra)
+            else:
+                words.append(item)
+        freq = pd.value_counts(words)
 
-    #tirando stopwords
-    stops = list(stopwords.words('english'))
-    for palavra, repeticoes in freq.items():
-        if palavra in stops:
-            freq = freq.drop(palavra)
-    return freq
+        #tirando stopwords
+        stops = list(stopwords.words('english'))
+        for palavra, repeticoes in freq.items():
+            if palavra in stops:
+                freq = freq.drop(palavra)
+        return freq
+    except Exception as error:
+        return error
 
 
 # Quais são as palavras mais comuns nos títulos dos Álbuns?
@@ -45,6 +48,7 @@ def frequencia_dos_titulos_dos_albuns(df):
     :param df: dataframe com todas as informações das músicas.
     :type df: object
     """
+
     print(count_freq(df.index.levels[0].values).head(3))
     wordcloud = WordCloud(background_color="#1B2430", colormap='Blues')
     wordcloud.generate_from_frequencies(frequencies=count_freq(df.index.levels[0].values))
@@ -83,13 +87,16 @@ def palavras_comuns(album):
     :rtype: object
     """
     
-    freq = pd.Series(0)
-    with open('musicas.json') as file:
-        all_musics = json.load(file)
-        for dicionario in all_musics:
-            if dicionario['album'] == album:
-                freq = freq.add(count_freq([dicionario['letra']]), fill_value=0)
-    return freq.sort_values(ascending=False)
+    try:
+        freq = pd.Series(0)
+        with open('musicas.json') as file:
+            all_musics = json.load(file)
+            for dicionario in all_musics:
+                if dicionario['album'] == album:
+                    freq = freq.add(count_freq([dicionario['letra']]), fill_value=0)
+        return freq.sort_values(ascending=False)
+    except Exception as error:
+        return error
 
 
 # Quais são as palavras mais comuns nas letras das músicas, por Álbum?
@@ -100,6 +107,7 @@ def palavras_comuns_albuns(lista_albuns):
     :param lista_albuns: lista com os nomes dos álbuns a serem analisados.
     :type lista_albuns: list[str]
     """
+    
     for album in lista_albuns:
         serie = palavras_comuns(album)
         print(f"\nPalavras mais frequentes em: {album}\n", serie.head(3), sep="")
