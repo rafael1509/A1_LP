@@ -13,24 +13,26 @@ def formatar_para_url(nome_da_musica):
     :return: a url de acesso da música escolhida.
     :rtype: str
     """
-    
-    # algumas musicas do album "An evening with silk sonic" do Bruno Mars
-    # aparecem no genius como musicas do silk song
-    chave = 0
-    if nome_da_musica in ['Silk Sonic Intro', 'Leave The Door Open', 'Fly As Me', 'After Last Night (with Thundercat & Bootsy Collins)',
-                            'Smokin Out The Window', 'Put On A Smile', '777', 'Skate', 'Blast Off']:
-        chave = 1
-    
-    #este trecho limpa pedaços como (feat. Damian Marley), deixando apenas o nome da musica
-    nome_da_musica = re.sub("\(.*?\)","",nome_da_musica)
-    
-    nome_da_musica = nome_da_musica.replace("&", "and").replace(" ", "-").lower().replace("'", "")
-    if nome_da_musica[-1] == '-':
-        nome_da_musica = nome_da_musica[:-1]
-    
-    if chave == 1:
-        return f'https://genius.com/Silk-sonic-{nome_da_musica}-lyrics'
-    return f'https://genius.com/Bruno-mars-{nome_da_musica}-lyrics'
+    try:
+        # algumas musicas do album "An evening with silk sonic" do Bruno Mars
+        # aparecem no genius como musicas do silk song
+        chave = 0
+        if nome_da_musica in ['Silk Sonic Intro', 'Leave The Door Open', 'Fly As Me', 'After Last Night (with Thundercat & Bootsy Collins)',
+                                'Smokin Out The Window', 'Put On A Smile', '777', 'Skate', 'Blast Off']:
+            chave = 1
+        
+        #este trecho limpa pedaços como (feat. Damian Marley), deixando apenas o nome da musica
+        nome_da_musica = re.sub("\(.*?\)","",nome_da_musica)
+        
+        nome_da_musica = nome_da_musica.replace("&", "and").replace(" ", "-").lower().replace("'", "")
+        if nome_da_musica[-1] == '-':
+            nome_da_musica = nome_da_musica[:-1]
+        
+        if chave == 1:
+            return f'https://genius.com/Silk-sonic-{nome_da_musica}-lyrics'
+        return f'https://genius.com/Bruno-mars-{nome_da_musica}-lyrics'
+    except Exception as error:
+        return error
 
 
 def get_lyrics(url):
@@ -40,17 +42,19 @@ def get_lyrics(url):
     :return: letra completa da música escolhida.
     :rtype: str
     """
-    
-    soup = BeautifulSoup(requests.get(url).content, 'lxml')
-    letra=''
-    for tag in soup.select('div[class^="Lyrics__Container"], .song_body-lyrics p'):
-        t = tag.get_text(strip=True, separator='\n')
-        if t:
-            letra+=t
-    letra = letra.replace("\n", " ")
-    letra = re.sub("\[.*?\]", "", letra)
-    return letra
 
+    try:
+        soup = BeautifulSoup(requests.get(url).content, 'lxml')
+        letra=''
+        for tag in soup.select('div[class^="Lyrics__Container"], .song_body-lyrics p'):
+            t = tag.get_text(strip=True, separator='\n')
+            if t:
+                letra+=t
+        letra = letra.replace("\n", " ")
+        letra = re.sub("\[.*?\]", "", letra)
+        return letra
+    except Exception as error:
+        return error
 
 def get_all_lyrics():
     """ 
