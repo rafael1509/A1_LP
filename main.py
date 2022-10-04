@@ -20,37 +20,37 @@ def grupo_um():
     g13.plot_mais_e_menos_por_album(df, 'popularity')
 
     # item ii
-    # g13.plot_mais_e_menos_por_album(df, 'duration (sec)')
+    g13.plot_mais_e_menos_por_album(df, 'duration (sec)')
 
     # item iii
-    # g13.plot_mais_e_menos_geral(df, 'popularity')
+    g13.plot_mais_e_menos_geral(df, 'popularity')
 
     # item iv
-    # g13.plot_mais_e_menos_geral(df, 'duration (sec)')
+    g13.plot_mais_e_menos_geral(df, 'duration (sec)')
 
     # item v
-    # g13.plot_premiados(df)
+    g13.plot_premiados(df)
 
     # item vi
-    # g13.plot_correlacao(df, ('duration (sec)', 'popularity'))
-# grupo_um()
+    g13.plot_correlacao(df, ('duration (sec)', 'popularity'))
+grupo_um()
 
 
 def grupo_dois():
     # item i
-    # g2.frequencia_dos_titulos_dos_albuns(df)
+    g2.frequencia_dos_titulos_dos_albuns(df)
 
     # item ii
-    # g2.frequencia_dos_titulos_das_musicas(df)
+    g2.frequencia_dos_titulos_das_musicas(df)
 
     # item iii
-    # g2.palavras_comuns_albuns(albuns)
+    g2.palavras_comuns_albuns(albuns)
 
     # item iv
-    # g2.palavras_comuns_discografia(albuns)
+    g2.palavras_comuns_discografia(albuns)
 
     # item v
-    # print(g2.titulo_albuns_nas_letras(albuns))
+    print(g2.titulo_albuns_nas_letras(albuns))
 
     # item vi
     print(g2.titulo_musica_na_letra())
@@ -64,5 +64,6 @@ def grupo_tres():
     g13.plot_tom_mais_frequente(df)
 
     # Quais são as músicas consideradas com maior 'danceability' por álbum e em toda discografia?
-    g13.plot_mais_e_menos_por_album(df, ['danceability'])
-    g13.plot_mais_e_menos_geral(df, ['danceability'])
+    g13.plot_mais_e_menos_por_album(df, 'danceability')
+    g13.plot_mais_e_menos_geral(df, 'danceability')
+grupo_tres()
