@@ -4,17 +4,16 @@ import numpy as np
 from scipy import stats
 
 
-# Essa função plota graficos do tipo: mostre o maior tal e menor tal POR ÁLBUM
 def plot_mais_e_menos_por_album(df, coluna):
-    """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
-
-       Essa função plota graficos e responde as perguntas do tipo: mostre o maior tal e menor tal POR ÁLBUM.
+    """Recebe o dataframe com as músicas e o nome da coluna escolhida para extração de informação. 
+    Responde as perguntas do tipo: mostre o maior e menor com "tal" característica POR ÁLBUM.
     
     :param df: dataframe com todas as informações das músicas.
-    :param coluna: nome(s) das coluna(s) requisitadas para obter informações.
+    :param coluna: nome das coluna requisitadas para obter informações.
     :type df: object
-    :type coluna: (str or tuple(str))
+    :type coluna: str
     """
+    
     # Criando um dicionario em que a chave é o nome do álbum e o valor é uma lista com as musicas dele.
     # Isso irá ajudar para plotar um gráfico por álbum
     tuples = df.index.values
@@ -42,17 +41,16 @@ def plot_mais_e_menos_por_album(df, coluna):
         plt.show()
 
 
-# essa função plota graficos do tipo: mostre o maior tal e menor tal EM TODA DISCOGRAFIA
 def plot_mais_e_menos_geral(df, coluna):
-    """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
-    
-       Essa função plota graficos e responde as perguntas do tipo: mostre o maior tal e menor tal EM TODA DISCOGRAFIA.
+    """Recebe o dataframe das músicas e o nome da coluna escolhida para extração de informação.
+       Responde as perguntas do tipo: mostre o maior e menor com "tal" característica EM TODA DISCOGRAFIA.
     
     :param df: dataframe com todas as informações das músicas.
-    :param coluna: nome(s) das coluna(s) requisitadas para obter informações.
+    :param coluna: nome das coluna requisitadas para obter informações.
     :type df: object
-    :type coluna: (str or tuple(str))
+    :type coluna: str
     """
+    
     custom_palette = []
     musicas = []
     maximo = df.idxmax()[coluna][1]
@@ -73,12 +71,11 @@ def plot_mais_e_menos_geral(df, coluna):
     plt.show()
 
 
-#plotando o gráfico dos albuns mais premiados
 def plot_premiados(df):
     """Recebe o dataframe das músicas.
-    
-       Essa função plota o gráfico com as premiações de cada álbum e responde o álbum com mais prêmios.
-       (Foram considerados os somatórios dos prêmios de cada música de cada álbum como premiação total do álbum.)
+       Mostra o número de premiações por álbum
+       (Foram considerados os somatórios dos prêmios de cada música de cada álbum como premiação total do álbum.
+       Os dados para número de prêmios por músicas foram coletados manualmente)
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -109,28 +106,26 @@ def plot_premiados(df):
     print("O álbum com menos prêmios é: ",min(res, key=res.get))
 
 
-# Calcula a correlação entre duas colunas do dataframe. Essas colunas são informadas em uma tupla
 def plot_correlacao(df, tupla):
     """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
-    
-       Essa função plota graficos de correlação entre duas informações escolhidas.
+    Mostra correlação entre duas colunas escolhidas.
     
     :param df: dataframe com todas as informações das músicas.
     :param tupla: nomes das colunas requisitadas para obter informações.
     :type df: object
     :type coluna: tuple(str)
     """
+    
     sns.lmplot(x=tupla[0], y=tupla[1], data=df)
     r = stats.pearsonr(df[tupla[0]], df[tupla[1]])[0]
     p = stats.pearsonr(df[tupla[0]], df[tupla[1]])[1]
     plt.legend(['R={:f}, p-value={:f}'.format(r,p)])
     plt.show()
 
-#quais são os tons (baseados em Pitch class) mais frequentes nas músicas?
+
 def plot_tom_mais_frequente(df):
-    """Recebe o dataframe das músicas.
-    
-       Essa função plota o gráfico e responde qual o tom mais frequente nas músicas.
+    """Recebe o dataframe das músicas
+    Responde quais são os tons mais frequentes da música (baseados em Pitch class)
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
