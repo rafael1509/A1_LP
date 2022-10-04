@@ -11,13 +11,11 @@ spot = spotipy.Spotify(client_credentials_manager = SpotifyClientCredentials(cli
 artist_id = '0du5cEVh5yTK9QJze8zA0C'#id do Bruno Mars
 
 
-# Devolve um dicionário com a id do album e o nome dele para cada album do artista
 def get_all_albuns(id_artista):
-    """Recebe a id de um artista no spotify e retorna um dicionário com a id e nome de cada álbum.
-    
+    """    
     :param id_artist: id do artista escolhido.
     :type id_artist: str
-    :return: id e nome de cada álbum do artista.
+    :return: um dicionário com a id do album e o nome dele para cada album do artista
     :rtype: dict
     """
     albuns_do_artista = spot.artist_albums(id_artista, album_type='album')
@@ -29,15 +27,16 @@ def get_all_albuns(id_artista):
     return albuns
 
 
-# Retorna todas as músicas de um albúm específico com as informações requisitadas em um data frame
 def get_album_data(album_id, album_name):
-    """Recebe a id e nome de um álbum e retorna um pd.DataFrame com as informações escolhidas por coluna.
+    """
+    Cria um dataframe com informações consideradas relevantes sobre cada música de um álbum específico.
     
     :param album_id: id do álbum escolhido.
     :param album_name: nome do álbum escolhido.
     :type album_id: str
     :type album_name: str
-    :return: um data frame multiindex de álbuns, músicas e informações escolhidas.
+    :return: um dataframe com multi-index de álbum e nome das músicas, em que as colunas
+    são são informações consideradas relevantes sobre cada música.
     :rtype: object
     """
     tuple_index = []
@@ -60,12 +59,12 @@ def get_album_data(album_id, album_name):
     'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo'], index=index)
 
 
-#cria um dataframe com todas as informações de todas as musicas
 def create_dataframe():
-    """Não recebe parâmetro e retorna um pd.DataFrame com os valores de cada colluna por música.
+    """Cria um dataframe com informações consideradas relevantes para todas as músicas do artista
     
     :param: None
-    :return: um data frame multiindex de álbuns, músicas, informações escolhidas e seus valores.
+    :return: um dataframe com multi-index de álbuns e nome das músicas, em que as colunas
+    são são informações consideradas relevantes sobre cada música.
     :rtype: object
     """
     albuns = get_all_albuns(artist_id)
