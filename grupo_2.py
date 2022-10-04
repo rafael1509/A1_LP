@@ -63,6 +63,7 @@ def frequencia_dos_titulos_das_musicas(df):
     :param df: dataframe com todas as informações das músicas.
     :type df: object
     """
+    
     print(count_freq(df.index.levels[1].values).head(3))
     wordcloud = WordCloud(background_color="#0F0E0E", colormap='GnBu')
     wordcloud.generate_from_frequencies(frequencies=count_freq(df.index.levels[1].values))
@@ -81,6 +82,7 @@ def palavras_comuns(album):
     :return: um pd.Series com a frequência de cada palavra que aparece nas músicas de um álbum específico
     :rtype: object
     """
+    
     freq = pd.Series(0)
     with open('musicas.json') as file:
         all_musics = json.load(file)
@@ -93,10 +95,9 @@ def palavras_comuns(album):
 # Quais são as palavras mais comuns nas letras das músicas, por Álbum?
 def palavras_comuns_albuns(lista_albuns):
     """
-    Recebe uma lista com os nomes dos álbuns a serem analisados.
     Responde quais as palavras mais frequentes nas letras das músicas por álbum e plota a tag cloud de CADA ÁLBUM.
 
-    :param lista_albuns: lista com os nomes dos álbuns.
+    :param lista_albuns: lista com os nomes dos álbuns a serem analisados.
     :type lista_albuns: list[str]
     """
     for album in lista_albuns:
@@ -114,12 +115,12 @@ def palavras_comuns_albuns(lista_albuns):
 # Quais são as palavras mais comuns nas letras das músicas, em toda a discografia?
 def palavras_comuns_discografia(lista_albuns):
     """
-    Recebe uma lista com os nomes dos álbuns a serem analisados.
-    Responde quais as palavras mais frequentes nas letras das músicas e plota a wordcloud de TODA A DISCOGRAFIA.
+    Responde quais as palavras mais frequentes nas letras das músicas, considerando TODA A DISCOGRAFIA, e plota a tag cloud
 
-    :param lista_albuns: lista com os nomes dos álbuns.
+    :param lista_albuns: lista com os nomes dos álbuns a serem analisados.
     :type lista_albuns: list[str]
     """
+    
     freq_total = pd.Series(0)
     for album in lista_albuns:
         freq_total = freq_total.add(palavras_comuns(album), fill_value=0)
@@ -136,12 +137,11 @@ def palavras_comuns_discografia(lista_albuns):
 # o titulo do album é tema recorrente nas letras?
 def titulo_albuns_nas_letras(albuns):
     """
-    Recebe uma lista com os nomes dos álbuns a serem analisados.
     A função plota um gráfico de barras que mostra o número de vezes que o nome do álbum aparece
     nas músicas dele. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma
     música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
 
-    :param albuns: lista com os nomes dos álbuns.
+    :param albuns: lista com os nomes dos álbuns a serem analisados.
     :type albuns: list[str]
     """
     
@@ -172,11 +172,11 @@ def titulo_albuns_nas_letras(albuns):
 # o titulo de uma música é tema recorrente nas letras?
 def titulo_musica_na_letra():
     """
-    Essa função não recebe parâmetros.
     A função plota um gráfico de barras que mostra o número de vezes que o título da música aparece
     na sua letra. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma
     música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
 
+    param: none
     """
     
     ocorrencias = {}
