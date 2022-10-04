@@ -10,15 +10,14 @@ import matplotlib.patches as mpatches
 import seaborn as sns
 
 
-#retorna um pd.series com as palavras mais comuns dada uma lista com palavras
 def count_freq(lista):
-    """Recebe uma lista com palavras e retorna um pd.Series com as palavras mais comuns.
-    
-    :param lista: lista com palavras a serem contadas.
+    """   
+    :param lista: lista com strings.
     :type lista: list
-    :return: um pd.Series com as palavras mais comuns da lista.
+    :return: um pd.Series com a frequência de cada palavra da lista.
     :rtype: object
     """
+    
     words = []
     for item in lista:
         item = re.subn('[(,),&,!,:,?]', "", item)#re.subn devolve uma tupla, oq impede o uso do replace
@@ -40,9 +39,8 @@ def count_freq(lista):
 
 # Quais são as palavras mais comuns nos títulos dos Álbuns?
 def frequencia_dos_titulos_dos_albuns(df):
-    """Recebe o dataframe das músicas.
-
-       Essa função responde quais são as palavras mais comuns nos títulos dos álbuns e plota as wordclous.
+    """
+    Essa função responde quais são as palavras mais comuns nos títulos dos álbuns e plota as tag lous.
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -59,9 +57,8 @@ def frequencia_dos_titulos_dos_albuns(df):
 
 # Quais são as palavras mais comuns nos títulos das músicas?
 def frequencia_dos_titulos_das_musicas(df):
-    """Recebe o dataframe das músicas.
-
-       Essa função responde quais são as palavras mais comuns nos títulos das músicas e plota as wordclous.
+    """
+    Essa função responde quais são as palavras mais comuns nos títulos das músicas e plota as tag clous.
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -76,13 +73,12 @@ def frequencia_dos_titulos_das_musicas(df):
     plt.show()
 
 
-# Retorna as palvras mais comuns por álbum
-def palavras_comuns(album):
-    """Recebe o(s) nome(s) do(s) álbum(ns) a ser(em) analisado(s).
 
+def palavras_comuns(album):
+    """
     :param album: nome do álbum escolhido.
-    :type album: (str or tuple(str))
-    :return: as palavras mais comuns nos títulos por álbum.
+    :type album: str
+    :return: um pd.Series com a frequência de cada palavra que aparece nas músicas de um álbum específico
     :rtype: object
     """
     freq = pd.Series(0)
@@ -96,9 +92,9 @@ def palavras_comuns(album):
 
 # Quais são as palavras mais comuns nas letras das músicas, por Álbum?
 def palavras_comuns_albuns(lista_albuns):
-    """Recebe uma lista com os nomes dos álbuns a serem analisados.
-
-        Essa função responde quais as palavras mais frequentes nas letras das músicas e plota a wordcloud de CADA ÁLBUM.
+    """
+    Recebe uma lista com os nomes dos álbuns a serem analisados.
+    Responde quais as palavras mais frequentes nas letras das músicas por álbum e plota a tag cloud de CADA ÁLBUM.
 
     :param lista_albuns: lista com os nomes dos álbuns.
     :type lista_albuns: list[str]
@@ -117,9 +113,9 @@ def palavras_comuns_albuns(lista_albuns):
 
 # Quais são as palavras mais comuns nas letras das músicas, em toda a discografia?
 def palavras_comuns_discografia(lista_albuns):
-    """Recebe uma lista com os nomes dos álbuns a serem analisados.
-
-        Essa função responde quais as palavras mais frequentes nas letras das músicas e plota a wordcloud de TODA A DISCOGRAFIA.
+    """
+    Recebe uma lista com os nomes dos álbuns a serem analisados.
+    Responde quais as palavras mais frequentes nas letras das músicas e plota a wordcloud de TODA A DISCOGRAFIA.
 
     :param lista_albuns: lista com os nomes dos álbuns.
     :type lista_albuns: list[str]
@@ -137,16 +133,18 @@ def palavras_comuns_discografia(lista_albuns):
     plt.show()
 
 
-# o titulo do album é tema recorrente nas letras? A função retorna o número total de vezes que
-# palavras-chave nos titulos dos albuns estão presentes nas suas músicas
+# o titulo do album é tema recorrente nas letras?
 def titulo_albuns_nas_letras(albuns):
-    """Recebe uma lista com os nomes dos álbuns a serem analisados.
-
-        Essa função plota a wordcloud da ocorrência do título nas letras das músicas.
+    """
+    Recebe uma lista com os nomes dos álbuns a serem analisados.
+    A função plota um gráfico de barras que mostra o número de vezes que o nome do álbum aparece
+    nas músicas dele. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma
+    música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
 
     :param albuns: lista com os nomes dos álbuns.
     :type albuns: list[str]
     """
+    
     ocorrencias = {}
     for titulo in albuns:
         if titulo not in ocorrencias:
@@ -171,14 +169,16 @@ def titulo_albuns_nas_letras(albuns):
     plt.show()
 
 
-# o titulo de uma música é tema recorrente nas letras? A função retorna o número total de vezes que
-# palavras-chave nos titulos dos albuns estão presentes nas suas músicas
+# o titulo de uma música é tema recorrente nas letras?
 def titulo_musica_na_letra():
-    """Essa função não recebe parâmetros.
-
-        Essa função plota o gráfico da recorrência do título como um tema nas letras das músicas.
+    """
+    Essa função não recebe parâmetros.
+    A função plota um gráfico de barras que mostra o número de vezes que o título da música aparece
+    na sua letra. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma
+    música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
 
     """
+    
     ocorrencias = {}
     with open("musicas.json") as file:
         all_musics = json.load(file)
