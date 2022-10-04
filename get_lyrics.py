@@ -56,8 +56,8 @@ def get_lyrics(url):
 
 
 def get_all_lyrics():
-    """Não recebe parâmetros 
-    Retorna um json com a letra, o nome da música e o álbum para cada música do artista. """
+    """Não recebe parâmetros. 
+    Cria um json com a letra, o nome da música e o álbum para cada música do artista. """
     
     df = create.create_dataframe()
     dic = {}
