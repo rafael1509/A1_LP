@@ -7,9 +7,7 @@ import re
 
 # A url do genius segue o seguinte padrão: "https://genius.com/nome-do-artista-nome-da-música-lyrics".
 def formatar_para_url(nome_da_musica):
-    """Recebe o nome de uma música]
-    Retorna sua url específica.
-    
+    """    
     :param nome_da_musica: nome da música escolhida.
     :type nome_da_musica: str
     :return: a url de acesso da música escolhida.
@@ -36,14 +34,13 @@ def formatar_para_url(nome_da_musica):
 
 
 def get_lyrics(url):
-    """Recebe a url de uma música
-    Retorna sua letra.
-    
+    """
     :param url: url da música escolhida.
     :type url: str
     :return: letra completa da música escolhida.
     :rtype: str
     """
+    
     soup = BeautifulSoup(requests.get(url).content, 'lxml')
     letra=''
     for tag in soup.select('div[class^="Lyrics__Container"], .song_body-lyrics p'):
@@ -56,8 +53,11 @@ def get_lyrics(url):
 
 
 def get_all_lyrics():
-    """Não recebe parâmetros. 
-    Cria um json com a letra, o nome da música e o álbum para cada música do artista. """
+    """ 
+    Cria um json com a letra, o nome da música e o álbum para cada música do artista.
+    
+    param: none
+    """
     
     df = create.create_dataframe()
     dic = {}
