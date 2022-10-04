@@ -5,7 +5,7 @@ from scipy import stats
 
 
 def plot_mais_e_menos_por_album(df, coluna):
-    """Recebe o dataframe com as músicas e o nome da coluna escolhida para extração de informação. 
+    """
     Responde as perguntas do tipo: mostre o maior e menor com "tal" característica POR ÁLBUM.
     
     :param df: dataframe com todas as informações das músicas.
@@ -42,11 +42,11 @@ def plot_mais_e_menos_por_album(df, coluna):
 
 
 def plot_mais_e_menos_geral(df, coluna):
-    """Recebe o dataframe das músicas e o nome da coluna escolhida para extração de informação.
-       Responde as perguntas do tipo: mostre o maior e menor com "tal" característica EM TODA DISCOGRAFIA.
+    """
+    Responde as perguntas do tipo: mostre o maior e menor com "tal" característica EM TODA DISCOGRAFIA.
     
     :param df: dataframe com todas as informações das músicas.
-    :param coluna: nome das coluna requisitadas para obter informações.
+    :param coluna: nome da coluna requisitada para obter informações.
     :type df: object
     :type coluna: str
     """
@@ -72,14 +72,15 @@ def plot_mais_e_menos_geral(df, coluna):
 
 
 def plot_premiados(df):
-    """Recebe o dataframe das músicas.
-       Mostra o número de premiações por álbum
-       (Foram considerados os somatórios dos prêmios de cada música de cada álbum como premiação total do álbum.
-       Os dados para número de prêmios por músicas foram coletados manualmente)
+    """
+    Mostra o número de premiações por álbum
+    (Foram considerados o somatório dos prêmios de cada música de um álbum como premiação total do álbum.
+    Os dados para número de prêmios por músicas foram coletados manualmente)
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
     """
+    
     tuples = df.index.values
     dict_albuns = {}
     albuns = []
@@ -107,8 +108,8 @@ def plot_premiados(df):
 
 
 def plot_correlacao(df, tupla):
-    """Recebe o dataframe das músicas e o nome das colunas escolhidas para extração de informação.
-    Mostra correlação entre duas colunas escolhidas.
+    """
+    Mostra a correlação entre duas colunas escolhidas.
     
     :param df: dataframe com todas as informações das músicas.
     :param tupla: nomes das colunas requisitadas para obter informações.
@@ -124,7 +125,7 @@ def plot_correlacao(df, tupla):
 
 
 def plot_tom_mais_frequente(df):
-    """Recebe o dataframe das músicas
+    """
     Responde quais são os tons mais frequentes da música (baseados em Pitch class)
     
     :param df: dataframe com todas as informações das músicas.
