@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>create_dataframe module &#8212; A1_LP 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-create_dataframe">
+<span id="create-dataframe-module"></span><h1>create_dataframe module<a class="headerlink" href="#module-create_dataframe" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="create_dataframe.create_dataframe">
+<span class="sig-prename descclassname"><span class="pre">create_dataframe.</span></span><span class="sig-name descname"><span class="pre">create_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/create_dataframe.html#create_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#create_dataframe.create_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cria um dataframe com informações consideradas relevantes para todas as músicas do artista</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>um dataframe com multi-index de álbuns e nome das músicas, em que as colunas</p>
+</dd>
+</dl>
+<p>são são informações consideradas relevantes sobre cada música.
+:rtype: object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="create_dataframe.get_album_data">
+<span class="sig-prename descclassname"><span class="pre">create_dataframe.</span></span><span class="sig-name descname"><span class="pre">get_album_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">album_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/create_dataframe.html#get_album_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#create_dataframe.get_album_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cria um dataframe com informações consideradas relevantes sobre cada música de um álbum específico.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>album_id</strong> (<em>str</em>) – id do álbum escolhido.</p></li>
+<li><p><strong>album_name</strong> (<em>str</em>) – nome do álbum escolhido.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>um dataframe com multi-index de álbum e nome das músicas, em que as colunas</p>
+</dd>
+</dl>
+<p>são são informações consideradas relevantes sobre cada música.
+:rtype: object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="create_dataframe.get_all_albuns">
+<span class="sig-prename descclassname"><span class="pre">create_dataframe.</span></span><span class="sig-name descname"><span class="pre">get_all_albuns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_artista</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/create_dataframe.html#get_all_albuns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#create_dataframe.get_all_albuns" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id_artist</strong> (<em>str</em>) – id do artista escolhido.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>um dicionário com a id do album e o nome dele para cada album do artista</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">A1_LP</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, João Victor Pereira Oliveira & Rafael Felipe dos Santos.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/docs/create_dataframe.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
