@@ -5,8 +5,7 @@ from scipy import stats
 
 
 def plot_mais_e_menos_por_album(df, coluna):
-    """
-    Responde as perguntas do tipo: mostre o maior e menor com "tal" característica POR ÁLBUM.
+    """Responde as perguntas do tipo: mostre o maior e menor com "tal" característica POR ÁLBUM.
     
     :param df: dataframe com todas as informações das músicas.
     :param coluna: nome das coluna requisitadas para obter informações.
@@ -34,16 +33,16 @@ def plot_mais_e_menos_por_album(df, coluna):
             else:
                 custom_palette.append('#97D2EC')
         sns.set(style = 'whitegrid')
-        sns.barplot(x = np.array(musicas), y = df.loc[album, coluna], data=df, palette=custom_palette)
-        plt.xticks(fontsize=7, rotation=80)
-        plt.title(f'{coluna} em: {album}', fontsize=15)
-        plt.ylabel(f'{coluna}', fontsize=10)
+        sns.barplot(x = df.loc[album, coluna], y = np.array(musicas) , data=df, palette=custom_palette)
+        plt.xticks(fontsize=10)
+        plt.xticks(fontsize=8)
+        plt.title(f'{coluna} em: {album}', fontsize=25)
+        plt.xlabel(f'{coluna}', fontsize=18)
         plt.show()
 
 
 def plot_mais_e_menos_geral(df, coluna):
-    """
-    Responde as perguntas do tipo: mostre o maior e menor com "tal" característica EM TODA DISCOGRAFIA.
+    """Responde as perguntas do tipo: mostre o maior e menor com "tal" característica EM TODA DISCOGRAFIA.
     
     :param df: dataframe com todas as informações das músicas.
     :param coluna: nome da coluna requisitada para obter informações.
@@ -64,18 +63,16 @@ def plot_mais_e_menos_geral(df, coluna):
         else:
             custom_palette.append('#ADDDD0')
     sns.set(style = 'whitegrid')
-    sns.barplot(x = np.array(musicas), y = df[coluna], data=df, palette=custom_palette)
-    plt.xticks(fontsize=7, rotation=80)
-    plt.title(f'{coluna} em: toda discografia', fontsize=15)
-    plt.ylabel(f'{coluna}', fontsize=10)
+    sns.barplot(x = df[coluna], data=df, y = np.array(musicas), palette=custom_palette)
+    plt.xticks(fontsize=10)
+    plt.xticks(fontsize=9)
+    plt.title(f'{coluna} em: toda discografia', fontsize=25)
+    plt.xlabel(f'{coluna}', fontsize=18)
     plt.show()
 
 
 def plot_premiados(df):
-    """
-    Mostra o número de premiações por álbum
-    (Foram considerados o somatório dos prêmios de cada música de um álbum como premiação total do álbum.
-    Os dados para número de prêmios por músicas foram coletados manualmente)
+    """Mostra o número de premiações por álbum (Foram considerados o somatório dos prêmios de cada música de um álbum como premiação total do álbum. Os dados para número de prêmios por músicas foram coletados manualmente)
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -93,9 +90,9 @@ def plot_premiados(df):
         premios.append(p[0])
     sns.set(style = 'whitegrid')
     sns.barplot(x = albuns, y = premios, data=df)
-    plt.xticks(fontsize=7)
-    plt.title("Prêmios por álbuns", fontsize=15)
-    plt.ylabel("Prêmios", fontsize=10)
+    plt.xticks(fontsize=13)
+    plt.title("Prêmios por álbuns", fontsize=25)
+    plt.ylabel("Prêmios", fontsize=18)
     plt.show()
     res = {}
     for key in albuns:
@@ -108,8 +105,7 @@ def plot_premiados(df):
 
 
 def plot_correlacao(df, tupla):
-    """
-    Mostra a correlação entre duas colunas escolhidas.
+    """Mostra a correlação entre duas colunas escolhidas.
     
     :param df: dataframe com todas as informações das músicas.
     :param tupla: nomes das colunas requisitadas para obter informações.
@@ -125,8 +121,7 @@ def plot_correlacao(df, tupla):
 
 
 def plot_tom_mais_frequente(df):
-    """
-    Responde quais são os tons mais frequentes da música (baseados em Pitch class)
+    """Responde quais são os tons mais frequentes da música (baseados em Pitch class)
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -148,8 +143,8 @@ def plot_tom_mais_frequente(df):
             custom_palette.append("#FF9494")
     sns.set(style = 'whitegrid')
     sns.barplot(x = k, y = v, data=df, palette=custom_palette)
-    plt.xticks(fontsize=7)
-    plt.title("Frequência dos tons", fontsize=15)
-    plt.ylabel("Frequência", fontsize=10)
-    plt.xlabel("Tons", fontsize=10)
+    plt.xticks(fontsize=13)
+    plt.title("Frequência dos tons", fontsize=25)
+    plt.ylabel("Frequência", fontsize=18)
+    plt.xlabel("Tons", fontsize=18)
     plt.show()
