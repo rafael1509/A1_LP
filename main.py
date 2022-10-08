@@ -4,11 +4,12 @@ sys.path.insert(1, './modules')
 import pandas as pd
 import grupo_1_e_3 as g13
 import grupo_2 as g2
+#import create_dataframe
 
 
 global df, albuns
 
-#df = musics.create_dataframe()
+#df = createdataframe.create_dataframe()
 
 #diminui tempo de execução ao usar df vindo do csv
 df = pd.read_csv('dataframe.csv', index_col=0, encoding='utf-8-sig', sep='\s*,\s*', engine='python').reset_index()
