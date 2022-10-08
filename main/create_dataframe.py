@@ -12,7 +12,8 @@ artist_id = '0du5cEVh5yTK9QJze8zA0C' #id do Bruno Mars
 
 
 def get_all_albuns(id_artista):
-    """    
+    """Cria uma relação entre a id e nome de cada álbum do artista.
+
     :param id_artist: id do artista escolhido.
     :type id_artist: str
     :return: um dicionário com a id do album e o nome dele para cada album do artista
@@ -33,15 +34,13 @@ def get_all_albuns(id_artista):
 
 
 def get_album_data(album_id, album_name):
-    """
-    Cria um dataframe com informações consideradas relevantes sobre cada música de um álbum específico.
+    """Cria um dataframe com informações consideradas relevantes sobre cada música de um álbum específico.
     
     :param album_id: id do álbum escolhido.
     :param album_name: nome do álbum escolhido.
     :type album_id: str
     :type album_name: str
-    :return: um dataframe com multi-index de álbum e nome das músicas, em que as colunas
-    são são informações consideradas relevantes sobre cada música.
+    :return: um dataframe com multi-index de álbum e nome das músicas, em que as colunas são informações consideradas relevantes sobre cada música.
     :rtype: object
     """
 
@@ -71,9 +70,8 @@ def get_album_data(album_id, album_name):
 def create_dataframe():
     """Cria um dataframe com informações consideradas relevantes para todas as músicas do artista
     
-    :param: None
-    :return: um dataframe com multi-index de álbuns e nome das músicas, em que as colunas
-    são são informações consideradas relevantes sobre cada música.
+    :param None:
+    :return: um dataframe com multi-index de álbuns e nome das músicas, em que as colunas são informações consideradas relevantes sobre cada música.
     :rtype: object
     """
     
