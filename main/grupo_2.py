@@ -1,4 +1,5 @@
 import re
+from unicodedata import name
 import pandas as pd
 import nltk
 nltk.download('stopwords')
@@ -50,7 +51,7 @@ def frequencia_dos_titulos_dos_albuns(df):
     """
 
     print(f"\nPalavras mais frequentes nos títulos dos álbuns:\n", count_freq(df.index.levels[0].values).head(3), sep="")
-    wordcloud = WordCloud(background_color="#1B2430", colormap='Blues')
+    wordcloud = WordCloud(background_color="#1B2430", colormap='Blues', width=800, height=400)
     wordcloud.generate_from_frequencies(frequencies=count_freq(df.index.levels[0].values))
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
@@ -68,7 +69,7 @@ def frequencia_dos_titulos_das_musicas(df):
     """
     
     print(f"\nPalavras mais frequentes nos títulos das músicas:\n", count_freq(df.index.levels[1].values).head(3), sep="")
-    wordcloud = WordCloud(background_color="#0F0E0E", colormap='GnBu')
+    wordcloud = WordCloud(background_color="#0F0E0E", colormap='GnBu', width=800, height=400)
     wordcloud.generate_from_frequencies(frequencies=count_freq(df.index.levels[1].values))
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
@@ -110,7 +111,7 @@ def palavras_comuns_albuns(lista_albuns):
     for album in lista_albuns:
         serie = palavras_comuns(album)
         print(f"\nPalavras mais frequentes em: {album}\n", serie.head(3), sep="")
-        wordcloud = WordCloud(colormap='Dark2')
+        wordcloud = WordCloud(colormap='Dark2', width=800, height=400)
         wordcloud.generate_from_frequencies(frequencies=serie)
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
@@ -131,7 +132,7 @@ def palavras_comuns_discografia(lista_albuns):
     for album in lista_albuns:
         freq_total = freq_total.add(palavras_comuns(album), fill_value=0)
     print("\nPalavras mais comuns nas letras das músicas em toda a discografia:\n", freq_total.sort_values(ascending=False).head(3),sep="")
-    wordcloud = WordCloud(background_color="#0F0E0E", colormap='PuRd_r')
+    wordcloud = WordCloud(background_color="#0F0E0E", colormap='PuRd_r', width=800, height=400)
     wordcloud.generate_from_frequencies(frequencies=freq_total)
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
@@ -200,16 +201,26 @@ def titulo_musica_na_letra():
         posicao = pd.Series(ocorrencias).sort_values(ascending=False)
         for titulo, frequencia in ocorrencias.items():
             if posicao.index.get_loc(titulo) < 13:
-                custom_palette.append('#FFC4C4')
+                custom_palette.append('#850E35')
             elif posicao.index.get_loc(titulo) < 26:
                 custom_palette.append('#EE6983')
             else:
-                custom_palette.append('#850E35')
+                custom_palette.append('#FFC4C4')
         keys = list(ocorrencias.keys())
         vals = list(ocorrencias.values())
+
+        #criando as legendas
+        primeiro = mpatches.Patch(color='#850E35', label='alta')
+        segundo = mpatches.Patch(color='#EE6983', label='média')
+        terceiro = mpatches.Patch(color='#FFC4C4', label='baixa')
+        cor_leg = [primeiro, segundo, terceiro]
+
+
         sns.set(style = 'whitegrid')
-        sns.barplot(x = keys, y = vals, palette=custom_palette)
-        plt.xticks(fontsize=9, rotation=80)
+        sns.barplot(x = vals, y = keys, palette=custom_palette)
+        plt.xticks(fontsize=9)
         plt.title("Ocorrência do título nas letras das músicas", fontsize=25)
         plt.ylabel("Frequência", fontsize=18)
+        plt.subplots_adjust(left=0.202)
+        plt.legend(handles=cor_leg, title='Frequência')
         plt.show()
