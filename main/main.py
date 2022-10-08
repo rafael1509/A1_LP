@@ -16,6 +16,10 @@ albuns = df.index.levels[0].values
 
 
 def grupo_um():
+    """Essa função foi criada para, ao ser chamada, responder todos os tópicos do grupo 1.
+
+    :param None:
+    """
     # item i
     g13.plot_mais_e_menos_por_album(df, 'popularity')
 
@@ -33,10 +37,14 @@ def grupo_um():
 
     # item vi
     g13.plot_correlacao(df, ('duration (sec)', 'popularity'))
-#grupo_um()
+grupo_um()
 
 
 def grupo_dois():
+    """Essa função foi criada para, ao ser chamada, responder todos os tópicos do grupo 2.
+
+    :param None:
+    """
     # item i
     g2.frequencia_dos_titulos_dos_albuns(df)
 
@@ -54,9 +62,13 @@ def grupo_dois():
 
     # item vi
     print(g2.titulo_musica_na_letra())
-#grupo_dois()
+grupo_dois()
 
-def grupo_tres():    
+def grupo_tres():
+    """Essa função foi criada para, ao ser chamada, responder todos os tópicos do grupo 3.
+
+    :param None:
+    """    
     # Há relação entre as colunas energy e loudness?
     g13.plot_correlacao(df, ('energy', 'loudness'))
 
@@ -66,4 +78,4 @@ def grupo_tres():
     # Quais são as músicas consideradas com maior 'danceability' por álbum e em toda discografia?
     g13.plot_mais_e_menos_por_album(df, 'danceability')
     g13.plot_mais_e_menos_geral(df, 'danceability')
-#grupo_tres()
+grupo_tres()
