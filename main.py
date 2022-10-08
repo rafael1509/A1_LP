@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(1, './modules')
+
 import pandas as pd
 import grupo_1_e_3 as g13
 import grupo_2 as g2
