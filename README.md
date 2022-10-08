@@ -41,7 +41,7 @@ python main.py
 
 <h2 id=visualizacoes>Visualizações:</h2>
 
-As visualizações, feitas através da Seaborn e da WordCloud, podem ser todas encontradas na pasta ``visualizacoes`` em .png, e, também nessa pasta, encontra-se um PDF de nome ``nsei`` com cada visualização em seu respectivo grupo de perguntas, na sequência que aparecem ao usar a ``main.py``.
+As visualizações, feitas através da Seaborn e da WordCloud, podem ser todas encontradas na pasta ``visualizacoes`` em .png, e, também nessa pasta, encontra-se um PDF de nome ``Relatório_A1_LP.pdf`` com cada visualização em seu respectivo grupo de perguntas, na sequência que aparecem ao usar a ``main.py``.
 
 
 <h2 id=docs>Documentação:</h2>
