@@ -11,7 +11,8 @@ import seaborn as sns
 
 
 def count_freq(lista):
-    """   
+    """Essa função nos da a frequência das palavras em uma determinada lista.
+
     :param lista: lista com strings.
     :type lista: list
     :return: um pd.Series com a frequência de cada palavra da lista.
@@ -42,8 +43,7 @@ def count_freq(lista):
 
 # Quais são as palavras mais comuns nos títulos dos Álbuns?
 def frequencia_dos_titulos_dos_albuns(df):
-    """
-    Essa função responde quais são as palavras mais comuns nos títulos dos álbuns e plota as tag lous.
+    """Essa função responde quais são as palavras mais comuns nos títulos dos álbuns e plota as tag lous.
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -55,14 +55,13 @@ def frequencia_dos_titulos_dos_albuns(df):
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.title('Palavras mais comuns nos títulos dos álbuns')
+    plt.title('Palavras mais comuns nos títulos dos álbuns', fontsize=25)
     plt.show()
 
 
 # Quais são as palavras mais comuns nos títulos das músicas?
 def frequencia_dos_titulos_das_musicas(df):
-    """
-    Essa função responde quais são as palavras mais comuns nos títulos das músicas e plota as tag clous.
+    """Essa função responde quais são as palavras mais comuns nos títulos das músicas e plota as tag clous.
     
     :param df: dataframe com todas as informações das músicas.
     :type df: object
@@ -74,13 +73,14 @@ def frequencia_dos_titulos_das_musicas(df):
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.title('Palavras mais comuns nos títulos das músicas')
+    plt.title('Palavras mais comuns nos títulos das músicas', fontsize=25)
     plt.show()
 
 
 
 def palavras_comuns(album):
-    """
+    """Essa função nos da a frequência de palavras nas músicas do álbum passado como argumento.
+
     :param album: nome do álbum escolhido.
     :type album: str
     :return: um pd.Series com a frequência de cada palavra que aparece nas músicas de um álbum específico
@@ -101,8 +101,7 @@ def palavras_comuns(album):
 
 # Quais são as palavras mais comuns nas letras das músicas, por Álbum?
 def palavras_comuns_albuns(lista_albuns):
-    """
-    Responde quais as palavras mais frequentes nas letras das músicas por álbum e plota a tag cloud de CADA ÁLBUM.
+    """Responde quais as palavras mais frequentes nas letras das músicas por álbum e plota a tag cloud de CADA ÁLBUM.
 
     :param lista_albuns: lista com os nomes dos álbuns a serem analisados.
     :type lista_albuns: list[str]
@@ -116,14 +115,13 @@ def palavras_comuns_albuns(lista_albuns):
         plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
-        plt.title(f"Palavras mais frequentes em: {album}")
+        plt.title(f"Palavras mais frequentes em: {album}", fontsize=25)
         plt.show()
 
 
 # Quais são as palavras mais comuns nas letras das músicas, em toda a discografia?
 def palavras_comuns_discografia(lista_albuns):
-    """
-    Responde quais as palavras mais frequentes nas letras das músicas, considerando TODA A DISCOGRAFIA, e plota a tag cloud
+    """Responde quais as palavras mais frequentes nas letras das músicas, considerando TODA A DISCOGRAFIA, e plota a tag cloud
 
     :param lista_albuns: lista com os nomes dos álbuns a serem analisados.
     :type lista_albuns: list[str]
@@ -138,16 +136,13 @@ def palavras_comuns_discografia(lista_albuns):
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.title('Palavras mais comuns nas letras das músicas em toda a discografia')
+    plt.title('Palavras mais comuns nas letras das músicas em toda a discografia', fontsize=25)
     plt.show()
 
 
 # o titulo do album é tema recorrente nas letras?
 def titulo_albuns_nas_letras(albuns):
-    """
-    A função plota um gráfico de barras que mostra o número de vezes que o nome do álbum aparece
-    nas músicas dele. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma
-    música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
+    """A função plota um gráfico de barras que mostra o número de vezes que o nome do álbum aparece nas músicas dele. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
 
     :param albuns: lista com os nomes dos álbuns a serem analisados.
     :type albuns: list[str]
@@ -171,20 +166,17 @@ def titulo_albuns_nas_letras(albuns):
     vals = list(ocorrencias.values())
     sns.set(style = 'whitegrid')
     sns.barplot(x = keys, y = vals)
-    plt.xticks(fontsize=7)
-    plt.title("Ocorrência do título nas letras das músicas", fontsize=15)
-    plt.ylabel("Frequência", fontsize=10)
+    plt.xticks(fontsize=9)
+    plt.title("Ocorrência do título nas letras das músicas", fontsize=25)
+    plt.ylabel("Frequência", fontsize=18)
     plt.show()
 
 
 # o titulo de uma música é tema recorrente nas letras?
 def titulo_musica_na_letra():
-    """
-    A função plota um gráfico de barras que mostra o número de vezes que o título da música aparece
-    na sua letra. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma
-    música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
+    """A função plota um gráfico de barras que mostra o número de vezes que o título da música aparece na sua letra. Contabilizamos uma ocorrência para cada palavra-chave que está presente em uma música (palavra-chave seria uma palavra que não está na lista padrão das stopwords da biblioteca NLTK).
 
-    param: none
+    :param None:
     """
     
     ocorrencias = {}
@@ -217,7 +209,7 @@ def titulo_musica_na_letra():
         vals = list(ocorrencias.values())
         sns.set(style = 'whitegrid')
         sns.barplot(x = keys, y = vals, palette=custom_palette)
-        plt.xticks(fontsize=7, rotation=80)
-        plt.title("Ocorrência do título nas letras das músicas", fontsize=15)
-        plt.ylabel("Frequência", fontsize=10)
+        plt.xticks(fontsize=9, rotation=80)
+        plt.title("Ocorrência do título nas letras das músicas", fontsize=25)
+        plt.ylabel("Frequência", fontsize=18)
         plt.show()
