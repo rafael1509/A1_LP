@@ -49,7 +49,7 @@ def frequencia_dos_titulos_dos_albuns(df):
     :type df: object
     """
 
-    print(count_freq(df.index.levels[0].values).head(3))
+    print(f"\nPalavras mais frequentes nos títulos dos álbuns:\n", count_freq(df.index.levels[0].values).head(3), sep="")
     wordcloud = WordCloud(background_color="#1B2430", colormap='Blues')
     wordcloud.generate_from_frequencies(frequencies=count_freq(df.index.levels[0].values))
     plt.figure()
@@ -67,7 +67,7 @@ def frequencia_dos_titulos_das_musicas(df):
     :type df: object
     """
     
-    print(count_freq(df.index.levels[1].values).head(3))
+    print(f"\nPalavras mais frequentes nos títulos das músicas:\n", count_freq(df.index.levels[1].values).head(3), sep="")
     wordcloud = WordCloud(background_color="#0F0E0E", colormap='GnBu')
     wordcloud.generate_from_frequencies(frequencies=count_freq(df.index.levels[1].values))
     plt.figure()
