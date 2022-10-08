@@ -1,6 +1,6 @@
 <h1>A1_LP</h1>
 
-Nesse repositório, feito para a avaliação de Linguagem de Programação, encontram-se os códigos feitos para a extração de dados de um determinado artista ou banda (usando Spotify e Genius) e, também, para uma visualização gráfica desses dados. Para essa avaliação, escolhemos o artista ``Bruno Mars``.
+Nesse repositório, feito para a avaliação de Linguagem de Programação, encontram-se os códigos feitos para a extração e visualização de dados de um determinado artista ou banda, por meio da API do Spotify. Para essa avaliação, escolhemos o artista ``Bruno Mars``.
 
 <h2>Índice:</h2>
 
