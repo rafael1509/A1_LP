@@ -38,6 +38,7 @@ def plot_mais_e_menos_por_album(df, coluna):
         plt.xticks(fontsize=8)
         plt.title(f'{coluna} em: {album}', fontsize=25)
         plt.xlabel(f'{coluna}', fontsize=18)
+        plt.subplots_adjust(left=0.195)
         plt.show()
 
 
@@ -68,6 +69,7 @@ def plot_mais_e_menos_geral(df, coluna):
     plt.xticks(fontsize=9)
     plt.title(f'{coluna} em: toda discografia', fontsize=25)
     plt.xlabel(f'{coluna}', fontsize=18)
+    plt.subplots_adjust(left=0.195)
     plt.show()
 
 
@@ -117,6 +119,7 @@ def plot_correlacao(df, tupla):
     r = stats.pearsonr(df[tupla[0]], df[tupla[1]])[0]
     p = stats.pearsonr(df[tupla[0]], df[tupla[1]])[1]
     plt.legend(['R={:f}, p-value={:f}'.format(r,p)])
+    plt.subplots_adjust(left=0.071, bottom=0.08, top=0.94)
     plt.show()
 
 
@@ -147,4 +150,5 @@ def plot_tom_mais_frequente(df):
     plt.title("Frequência dos tons", fontsize=25)
     plt.ylabel("Frequência", fontsize=18)
     plt.xlabel("Tons", fontsize=18)
+    plt.subplots_adjust(left=0.195)
     plt.show()
