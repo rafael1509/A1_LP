@@ -7,7 +7,8 @@ import re
 
 # A url do genius segue o seguinte padrão: "https://genius.com/nome-do-artista-nome-da-música-lyrics".
 def formatar_para_url(nome_da_musica):
-    """    
+    """Essa função nos da a url de acesso da música colocada como argumento.
+
     :param nome_da_musica: nome da música escolhida.
     :type nome_da_musica: str
     :return: a url de acesso da música escolhida.
@@ -36,7 +37,8 @@ def formatar_para_url(nome_da_musica):
 
 
 def get_lyrics(url):
-    """
+    """Essa função pega a letra da música a partir da sua url de acesso.
+
     :param url: url da música escolhida.
     :type url: str
     :return: letra completa da música escolhida.
@@ -57,10 +59,9 @@ def get_lyrics(url):
         return error
 
 def get_all_lyrics():
-    """ 
-    Cria um json com a letra, o nome da música e o álbum para cada música do artista.
+    """Cria um json com a letra, o nome da música e o álbum para cada música do artista.
     
-    param: none
+    :param None:
     """
     
     df = create.create_dataframe()
